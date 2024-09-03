@@ -35,11 +35,19 @@ func (controller *UserControllerImpl) Create(ctx *fiber.Ctx) error {
 	err2 := controller.UserService.Create(user)
 	if err2 != nil {
 		var fiberErr *fiber.Error
-		if errors.As(err2, &fiberErr) && fiberErr.Code == 409 {
-			return ctx.Status(fiber.StatusConflict).JSON(fiber.Map{
+		if errors.As(err2, &fiberErr) {
+			if fiberErr.Code == 409 {
+				return ctx.Status(fiber.StatusConflict).JSON(fiber.Map{
+					"errors": err2.Error(),
+				})
+			}
+			return ctx.Status(fiberErr.Code).JSON(fiber.Map{
 				"errors": err2.Error(),
 			})
 		}
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"errors": err2.Error(),
+		})
 	}
 
 	return ctx.Status(200).JSON(fiber.Map{
@@ -86,4 +94,29 @@ func (controller *UserControllerImpl) Find(ctx *fiber.Ctx) error {
 	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
 		"data": response,
 	})
+}
+
+func (controller *UserControllerImpl) ResetPassword(ctx *fiber.Ctx) error {
+	var userRequest dto.UserPasswordResetRequest
+	_ = ctx.BodyParser(&userRequest)
+	err := controller.Validate.Struct(userRequest)
+	if err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"errors": err.Error(),
+		})
+	}
+
+	err = controller.UserService.ResetPassword(userRequest.Email)
+	if err != nil {
+		var fiberErr *fiber.Error
+		if errors.As(err, &fiberErr) {
+			return ctx.Status(fiberErr.Code).JSON(fiber.Map{
+				"errors": fiberErr.Error(),
+			})
+		}
+	}
+	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "Please click link in your email for reset password",
+	})
+
 }

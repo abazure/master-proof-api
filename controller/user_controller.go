@@ -6,4 +6,5 @@ type UserController interface {
 	Create(ctx *fiber.Ctx) error
 	Find(ctx *fiber.Ctx) error
 	Login(ctx *fiber.Ctx) error
+	ResetPassword(ctx *fiber.Ctx) error
 }

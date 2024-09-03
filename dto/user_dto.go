@@ -10,6 +10,9 @@ type UserLoginRequest struct {
 	Email    string `validate:"required,email" json:"email"`
 	Password string `validate:"required,min=8,max=32" json:"password"`
 }
+type UserPasswordResetRequest struct {
+	Email string `validate:"required,email" json:"email"`
+}
 type UserLoginResponse struct {
 	Token string `json:"token"`
 }

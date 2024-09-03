@@ -28,10 +28,8 @@ func NewUserService(userRepository repository.UserRepository, firebaseAuth *auth
 }
 func (service *UserServiceImpl) Create(request dto.UserCreateRequest) error {
 
-	existingUser, err := service.UserRepository.FindById(request.Email, request.Nim)
-	if err != nil {
-		return err
-	}
+	existingUser, _ := service.UserRepository.FindById(request.Email, request.Nim)
+
 	if existingUser != nil {
 		return fiber.NewError(fiber.StatusConflict, "user with this email or NIM already exists")
 	}
@@ -117,4 +115,34 @@ func (service *UserServiceImpl) FindById(email string, nim string) (dto.UserResp
 		Email: user.Email,
 	}
 	return userResponse, nil
+}
+func (service *UserServiceImpl) ResetPassword(email string) error {
+	ctx := context.Background()
+	userRecord, _ := service.FirebaseAuth.GetUserByEmail(ctx, email)
+	if userRecord == nil {
+		return fiber.NewError(fiber.StatusNotFound, "User with this email don't exist")
+	}
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+	apiKey := os.Getenv("API_KEY")
+	if apiKey == "" {
+		return fiber.NewError(fiber.StatusInternalServerError, "API key environment variable not set")
+	}
+
+	url := fmt.Sprintf("https://www.googleapis.com/identitytoolkit/v3/relyingparty/getOobConfirmationCode?key=%s", apiKey)
+
+	requestBody, err := json.Marshal(map[string]interface{}{
+		"requestType": "PASSWORD_RESET",
+		"email":       email,
+	})
+	agent := fiber.Post(url)
+	agent.Body(requestBody)
+	agent.ContentType("application/json")
+	_, _, errs := agent.Bytes()
+	if len(errs) > 0 {
+		return fiber.NewError(fiber.StatusInternalServerError, errs[0].Error())
+	}
+	return nil
 }

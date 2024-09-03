@@ -6,10 +6,15 @@ import (
 	"master-proof-api/middleware"
 )
 
-func SetupRoute(app *fiber.App, controller controller.UserController) {
+func SetupRoute(app *fiber.App, userController controller.UserController, learningMaterialController controller.LearningMaterialController) {
 	api := app.Group("/api")
 
-	api.Post("/users", controller.Create)
-	api.Get("users/profile", middleware.FirebaseAuthMiddleware(), controller.Find)
-	api.Post("users/login", controller.Login)
+	//USERS
+	api.Post("/users", userController.Create)
+	api.Get("users/profile", middleware.FirebaseAuthMiddleware(), userController.Find)
+	api.Post("users/login", userController.Login)
+	api.Post("/users/reset-password", userController.ResetPassword)
+
+	//LEARNING_MATERIAL
+	api.Get("/learning-materials", middleware.FirebaseAuthMiddleware(), learningMaterialController.FindAll)
 }

@@ -17,13 +17,20 @@ func main() {
 	validate := validator.New()
 	firebaseInitialize := config.InitializeFirebase()
 	firebase := config.FirebaseAuthInitialize(firebaseInitialize)
+
+	//USER
 	userRepository := repository.NewUserRepository(db)
 	userService := service.NewUserService(userRepository, firebase)
 	UserController := controller.NewUserController(userService, validate)
 
+	//LEARNING_MATERIAL
+	learningMaterialRepository := repository.NewLearningMaterialRepository(db)
+	learningMaterialService := service.NewLearningMaterialService(learningMaterialRepository)
+	learningMaterialController := controller.NewLearningMaterialController(learningMaterialService, validate)
+
 	app := fiber.New()
 	//app.Use(middleware.ErrorHandler(app))
-	route.SetupRoute(app, UserController)
+	route.SetupRoute(app, UserController, learningMaterialController)
 
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("Hello, World!")
