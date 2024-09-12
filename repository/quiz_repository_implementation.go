@@ -23,3 +23,12 @@ func (repository *QuizRepositoryImpl) FindQuizWithCorrectAnswer(name string) ([]
 	}
 	return quiz, nil
 }
+
+func (repository *QuizRepositoryImpl) FindQuizWithoutCorrectAnswer(name string) ([]*model.Quiz, error) {
+	var quiz []*model.Quiz
+	result := repository.DB.Model(&model.Quiz{}).Preload("Questions.Answers").Where("name = ?", name).Find(&quiz)
+	if result.RowsAffected == 0 {
+		return []*model.Quiz{}, gorm.ErrRecordNotFound
+	}
+	return quiz, nil
+}

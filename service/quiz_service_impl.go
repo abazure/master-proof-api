@@ -44,3 +44,31 @@ func (service *QuizServiceImpl) FindQuizWithCorrectAnswer(name string) ([]*dto.Q
 
 	return results, nil
 }
+func (service *QuizServiceImpl) FindQuizWithoutCorrectAnswer(name string) ([]*dto.QuestionWithoutCorrectAnswer, error) {
+	quizzes, err := service.QuizRepository.FindQuizWithoutCorrectAnswer(name)
+	if err != nil {
+		return nil, err
+	}
+
+	var results []*dto.QuestionWithoutCorrectAnswer
+
+	for _, quiz := range quizzes {
+		for _, question := range quiz.Questions {
+			questionDTO := &dto.QuestionWithoutCorrectAnswer{
+				Id:       question.ID,
+				Question: question.Question,
+			}
+			for _, answer := range question.Answers {
+				option := dto.Option{
+					Value: int(answer.Value),
+					Text:  answer.Text,
+				}
+				questionDTO.AnswerOptions = append(questionDTO.AnswerOptions, option)
+			}
+
+			results = append(results, questionDTO)
+		}
+	}
+
+	return results, nil
+}

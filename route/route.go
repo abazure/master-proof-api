@@ -20,4 +20,5 @@ func SetupRoute(app *fiber.App, userController controller.UserController, learni
 
 	//Quiz
 	api.Get("/quizzes/:name", middleware.FirebaseAuthMiddleware(), quizController.FindQuizWithCorrectAnswer)
+	api.Get("/quizzes/without/:name", middleware.FirebaseAuthMiddleware(), quizController.FindQuizWithoutCorrectAnswer)
 }

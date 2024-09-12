@@ -25,3 +25,14 @@ func (controller *QuizControllerImpl) FindQuizWithCorrectAnswer(ctx *fiber.Ctx) 
 		"data": result,
 	})
 }
+
+func (controller *QuizControllerImpl) FindQuizWithoutCorrectAnswer(ctx *fiber.Ctx) error {
+	name := ctx.Params("name")
+	result, err := controller.QuizService.FindQuizWithoutCorrectAnswer(name)
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	}
+	return ctx.Status(200).JSON(fiber.Map{
+		"data": result,
+	})
+}
