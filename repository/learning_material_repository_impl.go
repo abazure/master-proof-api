@@ -17,6 +17,6 @@ func NewLearningMaterialRepository(db *gorm.DB) LearningMaterialRepository {
 
 func (repository LearningMaterialRepositoryImpl) FindAll() ([]*dto.LearningMaterialResponse, error) {
 	var learningMaterial []*dto.LearningMaterialResponse
-	err := repository.DB.Table("learning_materials as lm").Select("lm.id ,lm.title, lm.description, f.url").Joins("join files as f on f.id = lm.file_id").Take(&learningMaterial).Error
+	err := repository.DB.Table("learning_materials as lm").Select("lm.id ,lm.title, lm.description, f.url,").Joins("join files as f on f.id = lm.file_id").Take(&learningMaterial).Error
 	return learningMaterial, err
 }

@@ -42,11 +42,18 @@ func (service *UserServiceImpl) Create(request dto.UserCreateRequest) error {
 		return err
 	}
 
+	if request.Role == "" {
+		request.Role = "STUDENT"
+	}
+
+	photoUrl := fmt.Sprintf("https://ui-avatars.com/api/?size=128&background=0D8ABC&color=fff&name=%s", userRecord.DisplayName)
 	userRequest := model.User{
-		ID:    userRecord.UID,
-		NIM:   request.Nim,
-		Name:  userRecord.DisplayName,
-		Email: userRecord.Email,
+		ID:       userRecord.UID,
+		Role:     request.Role,
+		NIM:      request.Nim,
+		Name:     userRecord.DisplayName,
+		Email:    userRecord.Email,
+		PhotoUrl: photoUrl,
 	}
 
 	// Attempt to save the user in the database
@@ -110,9 +117,11 @@ func (service *UserServiceImpl) FindById(email string, nim string) (dto.UserResp
 		return dto.UserResponse{}, err
 	}
 	userResponse := dto.UserResponse{
-		Nim:   user.NIM,
-		Name:  user.Name,
-		Email: user.Email,
+		Nim:      user.NIM,
+		Name:     user.Name,
+		Role:     string(user.Role),
+		Email:    user.Email,
+		PhotoUrl: user.PhotoUrl,
 	}
 	return userResponse, nil
 }

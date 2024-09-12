@@ -4,5 +4,6 @@ type LearningMaterialResponse struct {
 	ID          string `json:"id"`
 	Title       string `json:"title"`
 	Description string `json:"description"`
-	Url         string `json:"url"`
+	Category    string `json:"category"`
+	Url         string `json:"pdf_url"`
 }

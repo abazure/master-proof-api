@@ -1,10 +1,13 @@
 package dto
 
+import "master-proof-api/model"
+
 type UserCreateRequest struct {
-	Nim      string `validate:"required" json:"nim"`
-	Name     string `validate:"required,min=1" json:"name"`
-	Email    string `validate:"required,email" json:"email"`
-	Password string `validate:"required,min=8,max=32" json:"password"`
+	Nim      string         `validate:"required,numeric" json:"nim"`
+	Name     string         `validate:"required,min=1" json:"name"`
+	Role     model.UserRole `validate:"" json:"role"`
+	Email    string         `validate:"required,email" json:"email"`
+	Password string         `validate:"required,min=8,max=32" json:"password"`
 }
 type UserLoginRequest struct {
 	Email    string `validate:"required,email" json:"email"`
@@ -18,7 +21,9 @@ type UserLoginResponse struct {
 }
 
 type UserResponse struct {
-	Nim   string `json:"nim"`
-	Name  string `json:"name"`
-	Email string `json:"email"`
+	Nim      string `json:"nim"`
+	Role     string `json:"role"`
+	Name     string `json:"name"`
+	Email    string `json:"email"`
+	PhotoUrl string `json:"photo_url"`
 }

@@ -28,9 +28,13 @@ func main() {
 	learningMaterialService := service.NewLearningMaterialService(learningMaterialRepository)
 	learningMaterialController := controller.NewLearningMaterialController(learningMaterialService, validate)
 
+	//Quiz
+	quizRepository := repository.NewQuizRepository(db)
+	quizService := service.NewQuizService(quizRepository)
+	quizController := controller.NewQuizController(quizService)
+
 	app := fiber.New()
-	//app.Use(middleware.ErrorHandler(app))
-	route.SetupRoute(app, UserController, learningMaterialController)
+	route.SetupRoute(app, UserController, learningMaterialController, quizController)
 
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("Hello, World!")
