@@ -27,3 +27,8 @@ type UserResponse struct {
 	Email    string `json:"email"`
 	PhotoUrl string `json:"photo_url"`
 }
+
+type GetUserByRole struct {
+	Id   string `json:"id"`
+	Name string `json:"name"`
+}

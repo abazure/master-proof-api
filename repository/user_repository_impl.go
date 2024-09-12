@@ -27,3 +27,11 @@ func (repository *UserRepositoryImpl) FindById(email string, nim string) (*model
 	}
 	return &user, nil
 }
+func (repository *UserRepositoryImpl) FindByRole(role string) ([]*model.User, error) {
+	var users []*model.User
+	result := repository.DB.Where("role = ?", role).Find(&users)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return users, nil
+}

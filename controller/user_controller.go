@@ -7,4 +7,5 @@ type UserController interface {
 	Find(ctx *fiber.Ctx) error
 	Login(ctx *fiber.Ctx) error
 	ResetPassword(ctx *fiber.Ctx) error
+	FindByRole(ctx *fiber.Ctx) error
 }

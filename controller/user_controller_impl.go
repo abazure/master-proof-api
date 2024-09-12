@@ -120,3 +120,16 @@ func (controller *UserControllerImpl) ResetPassword(ctx *fiber.Ctx) error {
 	})
 
 }
+
+func (controller *UserControllerImpl) FindByRole(ctx *fiber.Ctx) error {
+	role := "STUDENT"
+	result, err := controller.UserService.FindByRole(role)
+	if err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{})
+	}
+	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+		"data": map[string]interface{}{
+			"students": result,
+		},
+	})
+}

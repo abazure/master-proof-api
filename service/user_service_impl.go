@@ -155,3 +155,23 @@ func (service *UserServiceImpl) ResetPassword(email string) error {
 	}
 	return nil
 }
+
+func (service *UserServiceImpl) FindByRole(role string) ([]*dto.GetUserByRole, error) {
+	role = "STUDENT"
+	datas, err := service.UserRepository.FindByRole(role)
+	if err != nil {
+		return []*dto.GetUserByRole{}, err
+	}
+
+	var result []*dto.GetUserByRole
+	for _, data := range datas {
+		resultDto := dto.GetUserByRole{
+			Id:   data.ID,
+			Name: data.Name,
+		}
+		result = append(result, &resultDto)
+	}
+
+	return result, nil
+
+}
