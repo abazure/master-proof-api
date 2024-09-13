@@ -64,7 +64,7 @@ CREATE TABLE quiz_categories(
 
 CREATE TABLE quizzes(
     id VARCHAR(100) PRIMARY KEY DEFAULT GEN_RANDOM_UUID(),
-    quiz_category_id VARCHAR(100) UNIQUE,
+    quiz_category_id VARCHAR(100),
     name VARCHAR(100) NOT NULL ,
     description VARCHAR(100) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -90,22 +90,27 @@ CREATE TABLE answers(
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_answer_question_id FOREIGN KEY (question_id) REFERENCES questions (id)
-)
+);
 
-insert into quiz_categories (id, name) values ('qt1','contoh')
-insert into quizzes (id, quiz_category_id, name, description) values ('qz1','qt1', 'modalitas', 'quiz modalitas')
-insert into
-questions
-(id, quiz_id, question, correct_answer)
-values
-('q1', 'qz1', 'Why are you gay?', 1),
-('q2', 'qz1', 'Why are you ugly af?', 2)
+CREATE TABLE diagnostic_reports
+(
+    name        VARCHAR(100) NOT NULL PRIMARY KEY,
+    description TEXT         NOT NULL,
+    created_at  TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at  TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
 
-insert into
-answers
-(id, question_id, value, text)
-values
-('a2-1','q2', 0,'YNTKTS' ),
-('a2-2','q2', 1,'Terserah saya' ),
-('a2-3','q2', 3,'Wong saya suka kok' ),
-('a2-4','q2', 4,'No comment' )
+CREATE TABLE user_diagnostic_reports
+(
+    id                   VARCHAR(100) PRIMARY KEY DEFAULT GEN_RANDOM_UUID(),
+    user_id              VARCHAR(100) NOT NULL,
+    quiz_id              VARCHAR(100) NOT NULL,
+    diagnostic_report_id VARCHAR(100) NOT NULL,
+    created_at           TIMESTAMP    NOT NULL    DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT user_diagnostic_reports_user_id FOREIGN KEY (user_id) REFERENCES users (id),
+    CONSTRAINT user_diagnostic_reports_quiz_id FOREIGN KEY (quiz_id) REFERENCES quizzes (id),
+    CONSTRAINT user_diagnostic_reports_diagnostic_report_id FOREIGN KEY (diagnostic_report_id) references diagnostic_reports (name)
+);
+
+
+insert into user_diagnostic_reports(user_id, quiz_id, diagnostic_report_id) values ('nQnrJsWDRAYvvOlcUDEYaivvTim1','5875cd46-5d9e-416c-bb68-ae82501eaf7e','SURFACE')

@@ -32,3 +32,16 @@ func (repository *QuizRepositoryImpl) FindQuizWithoutCorrectAnswer(name string) 
 	}
 	return quiz, nil
 }
+
+func (repository *QuizRepositoryImpl) FindByName(name string) (*model.Quiz, error) {
+	var quiz model.Quiz
+	result := repository.DB.Model(&model.Quiz{}).Where("name = ?", name).Find(&quiz)
+	if result.RowsAffected == 0 {
+		return nil, gorm.ErrRecordNotFound
+	}
+	return &quiz, nil
+}
+
+func (repository *QuizRepositoryImpl) SaveDiagnosticReport(request *model.UserDiagnosticReport) error {
+	return repository.DB.Save(request).Error
+}

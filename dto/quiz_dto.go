@@ -17,3 +17,13 @@ type QuestionWithoutCorrectAnswer struct {
 	Question      string   `json:"question"`
 	AnswerOptions []Option `json:"answer_options"`
 }
+
+type RequestBodyResult struct {
+	Result string `json:"result"`
+}
+
+type DiagnosticReportRequest struct {
+	UserId             string `json:"user_id"`
+	QuizId             string `json:"quiz_id"`
+	DiagnosticReportId string `json:"diagnostic_report_id"`
+}

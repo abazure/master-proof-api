@@ -17,3 +17,24 @@ func TestQuiz(t *testing.T) {
 	}
 
 }
+func TestReport(t *testing.T) {
+	db := database.OpenConnection()
+	createRequest := model.UserDiagnosticReport{ // Ensure this is a unique ID
+		UserId:             "nQnrJsWDRAYvvOlcUDEYaivvTim1",         // Valid user ID
+		QuizId:             "5875cd46-5d9e-416c-bb68-ae82501eaf7e", // Valid quiz ID
+		DiagnosticReportId: "VISUAL",                               // Valid diagnostic report ID 		// Current timestamp
+	}
+
+	err := db.Create(&createRequest).Error
+	if err != nil {
+		fmt.Println(err)
+	}
+
+}
+
+func TestUUID(t *testing.T) {
+	db := database.OpenConnection()
+	var test *model.UserDiagnosticReport
+	db.Model(model.UserDiagnosticReport{}).Find(&test)
+
+}

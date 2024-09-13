@@ -1,7 +1,10 @@
 package service
 
 import (
+	"fmt"
+	"github.com/google/uuid"
 	"master-proof-api/dto"
+	"master-proof-api/model"
 	"master-proof-api/repository"
 )
 
@@ -71,4 +74,23 @@ func (service *QuizServiceImpl) FindQuizWithoutCorrectAnswer(name string) ([]*dt
 	}
 
 	return results, nil
+}
+
+func (service *QuizServiceImpl) CreateUserDiagnosticReport(request dto.DiagnosticReportRequest) error {
+
+	quiz, _ := service.QuizRepository.FindByName(request.QuizId)
+	createRequest := model.UserDiagnosticReport{
+		Id:                 uuid.New().String(),
+		UserId:             request.UserId,
+		QuizId:             quiz.ID,
+		DiagnosticReportId: request.DiagnosticReportId,
+	}
+
+	fmt.Println(createRequest)
+	err := service.QuizRepository.SaveDiagnosticReport(&createRequest)
+	if err != nil {
+		return err
+	}
+	return nil
+
 }

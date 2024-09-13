@@ -18,6 +18,8 @@ type User struct {
 	PhotoUrl  string    `gorm:"not null" json:"photo_url"`
 	CreatedAt time.Time `gorm:"column:created_at;autoCreateTime;" json:"created_at"`
 	UpdatedAt time.Time `gorm:"column:updated_at;autoCreateTime;autoUpdateTime" json:"updated_at"`
+
+	DiagnosticReports []DiagnosticReport `gorm:"many2many:user_diagnostic_reports;foreignKey:id;joinForeignKey:user_id;references:name;joinReferences:diagnostic_report_id"`
 }
 
 func (u *User) TableName() string {

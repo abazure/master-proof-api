@@ -55,7 +55,6 @@ func (service *UserServiceImpl) Create(request dto.UserCreateRequest) error {
 		Email:    userRecord.Email,
 		PhotoUrl: photoUrl,
 	}
-
 	// Attempt to save the user in the database
 	err = service.UserRepository.Save(&userRequest)
 	if err != nil {
