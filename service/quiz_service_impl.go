@@ -94,3 +94,23 @@ func (service *QuizServiceImpl) CreateUserDiagnosticReport(request dto.Diagnosti
 	return nil
 
 }
+
+func (service *QuizServiceImpl) FindUserDiagnosticReport(request dto.RequestGetDiagnosticResult) (*dto.ResponseDiagnosticReport, error) {
+	quiz, _ := service.QuizRepository.FindByName(request.QuizName)
+	if quiz == nil {
+		return &dto.ResponseDiagnosticReport{}, nil
+	}
+	report, err := service.QuizRepository.FindUserDiagnosticReport(request.UserId, quiz.ID)
+	if err != nil {
+		return nil, err
+	}
+	result := &dto.ResponseDiagnosticReport{
+		StudentId: request.UserId,
+		Type:      report.DiagnosticReportId,
+		Desc:      report.DiagnosticReport.Description,
+		CreatedAt: report.CreatedAt,
+	}
+
+	return result, nil
+
+}

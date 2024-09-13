@@ -34,7 +34,8 @@ func TestReport(t *testing.T) {
 
 func TestUUID(t *testing.T) {
 	db := database.OpenConnection()
-	var test *model.UserDiagnosticReport
-	db.Model(model.UserDiagnosticReport{}).Find(&test)
+	var result model.UserDiagnosticReport
+	db.Model(model.UserDiagnosticReport{}).Preload("DiagnosticReport").Take(&result)
+	fmt.Println(result)
 
 }

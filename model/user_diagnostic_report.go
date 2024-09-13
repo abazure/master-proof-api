@@ -10,7 +10,7 @@ type UserDiagnosticReport struct {
 	CreatedAt          time.Time `gorm:"column:created_at;autoCreateTime;"`
 	//
 	//User             User             `gorm:"foreignKey:UserId"`
-	//DiagnosticReport DiagnosticReport `gorm:"foreignKey:DiagnosticReportId"
+	DiagnosticReport DiagnosticReport `gorm:"foreignKey:DiagnosticReportId;references:name"`
 }
 
 func (u *UserDiagnosticReport) TableName() string {

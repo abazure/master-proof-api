@@ -1,5 +1,7 @@
 package dto
 
+import "time"
+
 type Option struct {
 	Value int    `json:"value"`
 	Text  string `json:"text"`
@@ -22,8 +24,20 @@ type RequestBodyResult struct {
 	Result string `json:"result"`
 }
 
+type RequestGetDiagnosticResult struct {
+	UserId   string `json:"user_id"`
+	QuizName string `json:"quiz_name"`
+}
+
 type DiagnosticReportRequest struct {
 	UserId             string `json:"user_id"`
 	QuizId             string `json:"quiz_id"`
 	DiagnosticReportId string `json:"diagnostic_report_id"`
+}
+
+type ResponseDiagnosticReport struct {
+	StudentId string    `json:"student_id"`
+	Type      string    `json:"type"`
+	Desc      string    `json:"desc"`
+	CreatedAt time.Time `json:"created_at"`
 }

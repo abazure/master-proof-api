@@ -60,4 +60,23 @@ func (controller *QuizControllerImpl) CreateUserDiagnosticReport(ctx *fiber.Ctx)
 	return ctx.Status(200).JSON(fiber.Map{
 		"message": "success",
 	})
+
+}
+
+func (controller *QuizControllerImpl) FindUserDiagnosticReport(ctx *fiber.Ctx) error {
+	token := ctx.Locals("user").(*auth.Token)
+	userId := token.Claims["user_id"].(string)
+	quizId := ctx.Params("name")
+	request := dto.RequestGetDiagnosticResult{
+		UserId:   userId,
+		QuizName: quizId,
+	}
+
+	result, err := controller.QuizService.FindUserDiagnosticReport(request)
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	}
+	return ctx.Status(200).JSON(fiber.Map{
+		"data": result,
+	})
 }
