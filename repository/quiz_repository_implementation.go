@@ -45,9 +45,27 @@ func (repository *QuizRepositoryImpl) FindByName(name string) (*model.Quiz, erro
 func (repository *QuizRepositoryImpl) SaveDiagnosticReport(request *model.UserDiagnosticReport) error {
 	return repository.DB.Save(request).Error
 }
+
 func (repository *QuizRepositoryImpl) FindUserDiagnosticReport(userId string, quizId string) (*model.UserDiagnosticReport, error) {
 	var result model.UserDiagnosticReport
 	err := repository.DB.Model(&model.UserDiagnosticReport{}).
+		Preload("DiagnosticReport").
+		Where("user_id = ? AND quiz_id = ?", userId, quizId).
+		Order("created_at DESC").
+		Take(&result).Error
+	if err != nil {
+		return nil, err
+	}
+	return &result, nil
+}
+
+func (repository *QuizRepositoryImpl) SaveCompetenceReport(request *model.UserCompetenceReports) error {
+	return repository.DB.Save(request).Error
+}
+
+func (repository *QuizRepositoryImpl) FindUserCompetenceReport(userId string, quizId string) (*model.UserCompetenceReports, error) {
+	var result model.UserCompetenceReports
+	err := repository.DB.Model(&model.UserCompetenceReports{}).
 		Preload("DiagnosticReport").
 		Where("user_id = ? AND quiz_id = ?", userId, quizId).
 		Order("created_at DESC").

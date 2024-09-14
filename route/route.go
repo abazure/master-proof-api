@@ -24,4 +24,5 @@ func SetupRoute(app *fiber.App, userController controller.UserController, learni
 	api.Get("/quizzes/without/:name", middleware.FirebaseAuthMiddleware(), quizController.FindQuizWithoutCorrectAnswer)
 	api.Post("/quizzes/diagnostic/:name", middleware.FirebaseAuthMiddleware(), quizController.CreateUserDiagnosticReport)
 	api.Get("/report/:name", middleware.FirebaseAuthMiddleware(), quizController.FindUserDiagnosticReport)
+	api.Post("/quizzes/competence/:name", middleware.FirebaseAuthMiddleware(), quizController.CreateUserCompetenceReport)
 }

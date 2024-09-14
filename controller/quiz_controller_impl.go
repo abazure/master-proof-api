@@ -80,3 +80,27 @@ func (controller *QuizControllerImpl) FindUserDiagnosticReport(ctx *fiber.Ctx) e
 		"data": result,
 	})
 }
+
+func (controller *QuizControllerImpl) CreateUserCompetenceReport(ctx *fiber.Ctx) error {
+	token := ctx.Locals("user").(*auth.Token)
+	userId := token.Claims["user_id"].(string)
+	quizId := ctx.Params("name")
+	var score dto.RequestBodyScore
+	err := ctx.BodyParser(&score)
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	}
+	request := dto.CompetenceReportRequest{
+		UserId: userId,
+		QuizId: quizId,
+		Score:  score.Score,
+	}
+
+	err = controller.QuizService.CreateUserCompetenceReport(request)
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	}
+	return ctx.Status(200).JSON(fiber.Map{
+		"message": "success",
+	})
+}

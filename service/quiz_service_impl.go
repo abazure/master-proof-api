@@ -2,6 +2,7 @@ package service
 
 import (
 	"fmt"
+	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 	"master-proof-api/dto"
 	"master-proof-api/model"
@@ -113,4 +114,22 @@ func (service *QuizServiceImpl) FindUserDiagnosticReport(request dto.RequestGetD
 
 	return result, nil
 
+}
+
+func (service *QuizServiceImpl) CreateUserCompetenceReport(request dto.CompetenceReportRequest) error {
+	quiz, _ := service.QuizRepository.FindByName(request.QuizId)
+	if quiz == nil {
+		return fiber.NewError(fiber.StatusNotFound, "quiz not found")
+	}
+	createRequest := model.UserCompetenceReports{
+		Id:       uuid.New().String(),
+		UserId:   request.UserId,
+		QuizName: request.QuizId,
+		Score:    request.Score,
+	}
+	err := service.QuizRepository.SaveCompetenceReport(&createRequest)
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	}
+	return nil
 }

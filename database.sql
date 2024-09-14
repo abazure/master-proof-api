@@ -113,4 +113,12 @@ CREATE TABLE user_diagnostic_reports
 );
 
 
-insert into user_diagnostic_reports(user_id, quiz_id, diagnostic_report_id) values ('nQnrJsWDRAYvvOlcUDEYaivvTim1','5875cd46-5d9e-416c-bb68-ae82501eaf7e','SURFACE')
+CREATE TABLE user_competence_reports
+(
+    id         VARCHAR(100) PRIMARY KEY DEFAULT GEN_RANDOM_UUID(),
+    user_id    VARCHAR(100) NOT NULL,
+    quiz_name  VARCHAR(100) NOT NULL,
+    score      int          NOT NULL,
+    created_at TIMESTAMP    NOT NULL    DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT user_diagnostic_report_user_id FOREIGN KEY (user_id) REFERENCES users (id)
+);

@@ -10,4 +10,6 @@ type QuizRepository interface {
 	FindByName(name string) (*model.Quiz, error)
 	SaveDiagnosticReport(request *model.UserDiagnosticReport) error
 	FindUserDiagnosticReport(userId string, quizId string) (*model.UserDiagnosticReport, error)
+	SaveCompetenceReport(request *model.UserCompetenceReports) error
+	FindUserCompetenceReport(userId string, quizId string) (*model.UserCompetenceReports, error)
 }

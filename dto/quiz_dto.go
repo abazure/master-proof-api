@@ -35,9 +35,25 @@ type DiagnosticReportRequest struct {
 	DiagnosticReportId string `json:"diagnostic_report_id"`
 }
 
+type RequestBodyScore struct {
+	Score int `json:"score"`
+}
+
+type CompetenceReportRequest struct {
+	UserId string `json:"user_id"`
+	QuizId string `json:"quiz_id"`
+	Score  int    `json:"score"`
+}
+
 type ResponseDiagnosticReport struct {
 	StudentId string    `json:"student_id"`
 	Type      string    `json:"type"`
 	Desc      string    `json:"desc"`
+	CreatedAt time.Time `json:"created_at"`
+}
+
+type ResponseCompetenceReport struct {
+	StudentId string    `json:"student_id"`
+	Score     int       `json:"score"`
 	CreatedAt time.Time `json:"created_at"`
 }
