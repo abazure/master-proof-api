@@ -104,3 +104,21 @@ func (controller *QuizControllerImpl) CreateUserCompetenceReport(ctx *fiber.Ctx)
 		"message": "success",
 	})
 }
+
+func (controller *QuizControllerImpl) FindUserCompetenceReport(ctx *fiber.Ctx) error {
+	token := ctx.Locals("user").(*auth.Token)
+	userId := token.Claims["user_id"].(string)
+	quizId := ctx.Params("name")
+	request := dto.RequestGetCompetenceResult{
+		UserId:   userId,
+		QuizName: quizId,
+	}
+
+	result, err := controller.QuizService.FindUserCompetenceReport(request)
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	}
+	return ctx.Status(200).JSON(fiber.Map{
+		"data": result,
+	})
+}

@@ -29,6 +29,11 @@ type RequestGetDiagnosticResult struct {
 	QuizName string `json:"quiz_name"`
 }
 
+type RequestGetCompetenceResult struct {
+	UserId   string `json:"user_id"`
+	QuizName string `json:"quiz_name"`
+}
+
 type DiagnosticReportRequest struct {
 	UserId             string `json:"user_id"`
 	QuizId             string `json:"quiz_id"`

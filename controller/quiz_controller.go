@@ -8,4 +8,5 @@ type QuizController interface {
 	CreateUserDiagnosticReport(ctx *fiber.Ctx) error
 	FindUserDiagnosticReport(ctx *fiber.Ctx) error
 	CreateUserCompetenceReport(ctx *fiber.Ctx) error
+	FindUserCompetenceReport(ctx *fiber.Ctx) error
 }

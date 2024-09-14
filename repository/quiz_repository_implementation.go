@@ -66,8 +66,7 @@ func (repository *QuizRepositoryImpl) SaveCompetenceReport(request *model.UserCo
 func (repository *QuizRepositoryImpl) FindUserCompetenceReport(userId string, quizId string) (*model.UserCompetenceReports, error) {
 	var result model.UserCompetenceReports
 	err := repository.DB.Model(&model.UserCompetenceReports{}).
-		Preload("DiagnosticReport").
-		Where("user_id = ? AND quiz_id = ?", userId, quizId).
+		Where("user_id = ? AND quiz_name = ?", userId, quizId).
 		Order("created_at DESC").
 		Take(&result).Error
 	if err != nil {

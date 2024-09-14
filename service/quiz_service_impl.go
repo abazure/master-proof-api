@@ -133,3 +133,20 @@ func (service *QuizServiceImpl) CreateUserCompetenceReport(request dto.Competenc
 	}
 	return nil
 }
+func (service *QuizServiceImpl) FindUserCompetenceReport(request dto.RequestGetCompetenceResult) (*dto.ResponseCompetenceReport, error) {
+	quiz, _ := service.QuizRepository.FindByName(request.QuizName)
+	if quiz == nil {
+		return &dto.ResponseCompetenceReport{}, nil
+	}
+
+	report, err := service.QuizRepository.FindUserCompetenceReport(request.UserId, request.QuizName)
+	if err != nil {
+		return nil, err
+	}
+	result := &dto.ResponseCompetenceReport{
+		StudentId: report.UserId,
+		Score:     report.Score,
+		CreatedAt: report.CreatedAt,
+	}
+	return result, nil
+}
