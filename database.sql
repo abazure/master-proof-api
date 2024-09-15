@@ -122,3 +122,20 @@ CREATE TABLE user_competence_reports
     created_at TIMESTAMP    NOT NULL    DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT user_diagnostic_report_user_id FOREIGN KEY (user_id) REFERENCES users (id)
 );
+
+CREATE TABLE activities (
+    id VARCHAR(100) PRIMARY KEY DEFAULT GEN_RANDOM_UUID(),
+    file_id VARCHAR(100) NOT NULL UNIQUE,
+    name VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP    NOT NULL    DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT activities_file_id FOREIGN KEY (file_id) REFERENCES files(id)
+);
+
+CREATE TABLE  user_activities(
+    id VARCHAR(100) PRIMARY KEY DEFAULT GEN_RANDOM_UUID(),
+    user_id VARCHAR(100) NOT NULL,
+    activity_id VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP    NOT NULL    DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT user_activity_user_id FOREIGN KEY (user_id) REFERENCES users(id),
+    CONSTRAINT user_activity_activity_id FOREIGN KEY (activity_id) REFERENCES activities(id)
+)

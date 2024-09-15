@@ -21,6 +21,7 @@ type User struct {
 
 	UserCompetenceReports []UserCompetenceReports `gorm:"foreignKey:user_id;references:id"`
 	DiagnosticReports     []DiagnosticReport      `gorm:"many2many:user_diagnostic_reports;foreignKey:id;joinForeignKey:user_id;references:name;joinReferences:diagnostic_report_id"`
+	UserActivity          []Activity              `gorm:"many2many:user_activities;foreignKey:id;joinForeignKey:user_id;references:id;joinReferences:activities_id"`
 }
 
 func (u *User) TableName() string {

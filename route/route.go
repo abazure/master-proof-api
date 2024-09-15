@@ -6,7 +6,7 @@ import (
 	"master-proof-api/middleware"
 )
 
-func SetupRoute(app *fiber.App, userController controller.UserController, learningMaterialController controller.LearningMaterialController, quizController controller.QuizController) {
+func SetupRoute(app *fiber.App, userController controller.UserController, learningMaterialController controller.LearningMaterialController, quizController controller.QuizController, activityController controller.ActivityController) {
 	api := app.Group("/api")
 
 	//USERS
@@ -26,4 +26,7 @@ func SetupRoute(app *fiber.App, userController controller.UserController, learni
 	api.Get("/reports/diagnostics/:name", middleware.FirebaseAuthMiddleware(), quizController.FindUserDiagnosticReport)
 	api.Post("/quizzes/competences/:name", middleware.FirebaseAuthMiddleware(), quizController.CreateUserCompetenceReport)
 	api.Get("/reports/competences/:name", middleware.FirebaseAuthMiddleware(), quizController.FindUserCompetenceReport)
+
+	//ACTIVITY
+	api.Post("/activities/upload/", middleware.FirebaseAuthMiddleware(), activityController.CreateActivity)
 }

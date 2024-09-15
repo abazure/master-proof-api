@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/base64"
 	"fmt"
 	"master-proof-api/database"
 	"master-proof-api/model"
@@ -38,4 +39,9 @@ func TestUUID(t *testing.T) {
 	db.Model(model.UserDiagnosticReport{}).Preload("DiagnosticReport").Take(&result)
 	fmt.Println(result)
 
+}
+
+func TestActivity(t *testing.T) {
+	encoded := base64.StdEncoding.EncodeToString([]byte("private_jm1crOoYsIfCIiyEno50eAz7dXM="))
+	fmt.Println(encoded)
 }
