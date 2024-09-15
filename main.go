@@ -35,7 +35,7 @@ func main() {
 
 	//Activity
 	activityRepository := repository.NewActivityRepository(db)
-	activityService := service.NewActivityService(activityRepository)
+	activityService := service.NewActivityService(activityRepository, validate)
 	activityController := controller.NewActivityController(activityService)
 
 	app := fiber.New()

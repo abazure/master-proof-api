@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"fmt"
+	"errors"
 	"github.com/gofiber/fiber/v2"
 	"master-proof-api/dto"
 	"master-proof-api/service"
@@ -27,13 +27,23 @@ func (controller *ActivityControllerImpl) CreateActivity(ctx *fiber.Ctx) error {
 		File: file,
 		Name: name,
 	}
-	fmt.Println(&request)
 
 	err = controller.ActivityService.CreateActivity(&request)
 	if err != nil {
+		var fiberErr *fiber.Error
+		if errors.As(err, &fiberErr) {
+			if fiberErr.Code == 409 {
+				return ctx.Status(fiber.StatusConflict).JSON(fiber.Map{
+					"errors": err.Error(),
+				})
+			}
+			return ctx.Status(fiberErr.Code).JSON(fiber.Map{
+				"errors": err.Error(),
+			})
+		}
 		return err
 	}
-	ctx.Status(fiber.StatusCreated).JSON(fiber.Map{
+	ctx.Status(fiber.StatusOK).JSON(fiber.Map{
 		"message": "Success upload file",
 	})
 

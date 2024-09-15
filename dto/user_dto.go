@@ -17,7 +17,8 @@ type UserPasswordResetRequest struct {
 	Email string `validate:"required,email" json:"email"`
 }
 type UserLoginResponse struct {
-	Token string `json:"token"`
+	Token string         `json:"token"`
+	Role  model.UserRole `json:"role"`
 }
 
 type UserResponse struct {

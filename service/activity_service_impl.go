@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 	"github.com/joho/godotenv"
@@ -18,11 +19,13 @@ import (
 
 type ActivityServiceImpl struct {
 	ActivityRepository repository.ActivityRepository
+	Validate           *validator.Validate
 }
 
-func NewActivityService(activityRepository repository.ActivityRepository) ActivityService {
+func NewActivityService(activityRepository repository.ActivityRepository, validate *validator.Validate) ActivityService {
 	return &ActivityServiceImpl{
 		ActivityRepository: activityRepository,
+		Validate:           validate,
 	}
 }
 
@@ -91,7 +94,10 @@ func (service *ActivityServiceImpl) CreateActivity(request *dto.CreateActivityRe
 	if err := godotenv.Load(".env"); err != nil {
 		return fmt.Errorf("error loading .env file: %w", err)
 	}
-
+	err2 := service.Validate.Struct(request)
+	if err2 != nil {
+		return fiber.NewError(fiber.StatusBadRequest, err2.Error())
+	}
 	file, err := request.File.Open()
 	if err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, "Failed to open file: "+err.Error())
