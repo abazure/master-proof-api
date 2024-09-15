@@ -11,8 +11,8 @@ func SetupRoute(app *fiber.App, userController controller.UserController, learni
 
 	//USERS
 	api.Post("/users", userController.Create)
-	api.Get("users/profile", middleware.FirebaseAuthMiddleware(), userController.Find)
-	api.Post("users/login", userController.Login)
+	api.Get("/users/profile", middleware.FirebaseAuthMiddleware(), userController.Find)
+	api.Post("/users/login", userController.Login)
 	api.Post("/users/reset-password", userController.ResetPassword)
 	api.Get("/students", middleware.FirebaseAuthMiddleware(), userController.FindByRole)
 
@@ -20,10 +20,10 @@ func SetupRoute(app *fiber.App, userController controller.UserController, learni
 	api.Get("/learning-materials", middleware.FirebaseAuthMiddleware(), learningMaterialController.FindAll)
 
 	//Quiz
-	api.Get("/quizzes/:name", middleware.FirebaseAuthMiddleware(), quizController.FindQuizWithCorrectAnswer)
-	api.Get("/quizzes/without/:name", middleware.FirebaseAuthMiddleware(), quizController.FindQuizWithoutCorrectAnswer)
-	api.Post("/quizzes/diagnostic/:name", middleware.FirebaseAuthMiddleware(), quizController.CreateUserDiagnosticReport)
-	api.Get("/reports/diagnostic/:name", middleware.FirebaseAuthMiddleware(), quizController.FindUserDiagnosticReport)
-	api.Post("/quizzes/competence/:name", middleware.FirebaseAuthMiddleware(), quizController.CreateUserCompetenceReport)
-	api.Get("/reports/competence/:name", middleware.FirebaseAuthMiddleware(), quizController.FindUserCompetenceReport)
+	api.Get("/quizzes/competences/:name", middleware.FirebaseAuthMiddleware(), quizController.FindQuizWithCorrectAnswer)
+	api.Get("/quizzes/diagnostics/:name", middleware.FirebaseAuthMiddleware(), quizController.FindQuizWithoutCorrectAnswer)
+	api.Post("/quizzes/diagnostics/:name", middleware.FirebaseAuthMiddleware(), quizController.CreateUserDiagnosticReport)
+	api.Get("/reports/diagnostics/:name", middleware.FirebaseAuthMiddleware(), quizController.FindUserDiagnosticReport)
+	api.Post("/quizzes/competences/:name", middleware.FirebaseAuthMiddleware(), quizController.CreateUserCompetenceReport)
+	api.Get("/reports/competences/:name", middleware.FirebaseAuthMiddleware(), quizController.FindUserCompetenceReport)
 }
