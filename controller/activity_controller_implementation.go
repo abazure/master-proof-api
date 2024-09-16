@@ -2,6 +2,7 @@ package controller
 
 import (
 	"errors"
+	"firebase.google.com/go/v4/auth"
 	"github.com/gofiber/fiber/v2"
 	"master-proof-api/dto"
 	"master-proof-api/service"
@@ -80,6 +81,33 @@ func (controller *ActivityControllerImpl) FindById(ctx *fiber.Ctx) error {
 	}
 	ctx.Status(fiber.StatusOK).JSON(fiber.Map{
 		"data": response,
+	})
+	return nil
+}
+func (controller *ActivityControllerImpl) CreateActivitySubmission(ctx *fiber.Ctx) error {
+	file, err2 := ctx.FormFile("file")
+	if err2 != nil {
+		return err2
+	}
+	token := ctx.Locals("user").(*auth.Token)
+	UserId := token.Claims["user_id"].(string)
+	activityId := ctx.Params("id")
+	request := dto.CreateActivitySubmissionRequest{
+		UserId:     UserId,
+		ActivityId: activityId,
+		File:       file,
+	}
+	err := controller.ActivityService.CreateActivitySubmission(&request)
+	if err != nil {
+		var fiberErr *fiber.Error
+		if errors.As(err, &fiberErr) {
+			return ctx.Status(fiberErr.Code).JSON(fiber.Map{
+				"errors": err.Error(),
+			})
+		}
+	}
+	ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "Success upload file",
 	})
 	return nil
 }

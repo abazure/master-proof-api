@@ -6,4 +6,5 @@ type ActivityService interface {
 	CreateActivity(request *dto.CreateActivityRequest) error
 	FindAll() ([]*dto.FindAllActivityResponse, error)
 	FindById(id string) (*dto.FindAllActivityResponse, error)
+	CreateActivitySubmission(request *dto.CreateActivitySubmissionRequest) error
 }

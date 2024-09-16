@@ -29,66 +29,6 @@ func NewActivityService(activityRepository repository.ActivityRepository, valida
 	}
 }
 
-//func (service *ActivityServiceImpl) CreateActivity(request *dto.CreateActivityRequest) error {
-//	err := godotenv.Load(".env")
-//	if err != nil {
-//		log.Fatal("Error loading .env file")
-//	}
-//
-//	file, err := request.File.Open()
-//	if err != nil {
-//		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
-//	}
-//	bytes, err := io.ReadAll(file)
-//	//var buffer bytes2.Buffer
-//	//writer := multipart.NewWriter(&buffer)
-//	//field, err := writer.CreateFormField("file")
-//	//if err != nil {
-//	//	return fiber.NewError(fiber.StatusInternalServerError, err.Error())
-//	//}
-//	//test, err := io.Copy(field, file)
-//	args := fiber.AcquireArgs()
-//	args.Add("fileName", request.Name+".pdf")
-//	args.SetBytesV("file", bytes)
-//	imagekitPrivateKey := os.Getenv("IMAGEKIT_PRIVATE_KEY")
-//	fmt.Println("IMAGEKIT_PRIVATE_KEY:", imagekitPrivateKey)
-//	url := "https://upload.imagekit.io/api/v1/files/upload"
-//	fmt.Println(imagekitPrivateKey)
-//	agent := fiber.Post(url)
-//	agent.ContentType("multipart/form-data")
-//	agent.BasicAuth(imagekitPrivateKey, "")
-//	agent.MultipartForm(args)
-//	_, responseBody, errors := agent.Bytes()
-//	if len(errors) > 0 {
-//		return errors[0]
-//	}
-//	fmt.Println(string(responseBody))
-//	var result struct {
-//		FileId string `json:"fileId"`
-//		Name   string `json:"name"`
-//		Size   int    `json:"size"`
-//		Url    string `json:"url"`
-//	}
-//	err = json.Unmarshal(responseBody, &result)
-//	if err != nil {
-//		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
-//	}
-//	req := model.Activity{
-//		Id:        uuid.New().String(),
-//		FileId:    result.FileId,
-//		Name:      request.Name,
-//		CreatedAt: time.Time{},
-//		File: model.File{
-//			ID:  result.FileId,
-//			Url: result.Url,
-//		},
-//	}
-//	err = service.ActivityRepository.CreateActivity(&req)
-//	if err != nil {
-//		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
-//	}
-//	return nil}
-
 func (service *ActivityServiceImpl) CreateActivity(request *dto.CreateActivityRequest) error {
 	// Load environment variables
 	if err := godotenv.Load(".env"); err != nil {
@@ -208,4 +148,95 @@ func (service *ActivityServiceImpl) FindById(id string) (*dto.FindAllActivityRes
 		PdfUrl: result.File.Url,
 	}
 	return &data, nil
+}
+func (service *ActivityServiceImpl) CreateActivitySubmission(request *dto.CreateActivitySubmissionRequest) error {
+	if err := godotenv.Load(".env"); err != nil {
+		return fmt.Errorf("error loading .env file: %w", err)
+	}
+	err2 := service.Validate.Struct(request)
+	if err2 != nil {
+		return fiber.NewError(fiber.StatusBadRequest, err2.Error())
+	}
+	activity, err := service.ActivityRepository.FindById(request.ActivityId)
+	if err != nil {
+		return fiber.NewError(fiber.StatusNotFound, err.Error())
+	}
+	if activity == nil {
+		return fiber.NewError(fiber.StatusNotFound, "No result")
+	}
+
+	file, err := request.File.Open()
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed to open file: "+err.Error())
+	}
+	defer file.Close()
+	var buffer bytes.Buffer
+	writer := multipart.NewWriter(&buffer)
+
+	if err := writer.WriteField("fileName", request.UserId+".pdf"); err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed to add fileName field: "+err.Error())
+	}
+
+	part, err := writer.CreateFormFile("file", request.UserId+".pdf")
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed to create form file: "+err.Error())
+	}
+
+	if _, err = io.Copy(part, file); err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed to copy file: "+err.Error())
+	}
+
+	writer.Close()
+
+	imagekitPrivateKey := os.Getenv("IMAGEKIT_PRIVATE_KEY")
+	url := "https://upload.imagekit.io/api/v1/files/upload"
+	req, err := http.NewRequest("POST", url, &buffer)
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed to create request: "+err.Error())
+	}
+
+	req.Header.Set("Content-Type", writer.FormDataContentType())
+	req.SetBasicAuth(imagekitPrivateKey, "")
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed to send request: "+err.Error())
+	}
+	defer resp.Body.Close()
+
+	responseBody, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed to read response: "+err.Error())
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		return fiber.NewError(resp.StatusCode, "ImageKit API error: "+string(responseBody))
+	}
+
+	var result struct {
+		FileId string `json:"fileId"`
+		Name   string `json:"name"`
+		Size   int    `json:"size"`
+		Url    string `json:"url"`
+	}
+	if err := json.Unmarshal(responseBody, &result); err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed to parse response: "+err.Error())
+	}
+
+	userActivity := model.UserActivity{
+		Id:         uuid.New().String(),
+		UserId:     request.UserId,
+		FileId:     result.FileId,
+		ActivityId: request.ActivityId,
+		File: model.File{
+			ID:  result.FileId,
+			Url: result.Url,
+		},
+	}
+	err2 = service.ActivityRepository.CreateActivitySubmission(&userActivity)
+	if err2 != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed to create activity submission: "+err.Error())
+	}
+	return nil
+
 }

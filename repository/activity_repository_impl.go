@@ -29,3 +29,6 @@ func (repository *ActivityRepositoryImpl) FindById(id string) (*model.Activity, 
 	err := repository.DB.Where("id = ?", id).Preload("File").Take(&activity).Error
 	return activity, err
 }
+func (repository *ActivityRepositoryImpl) CreateActivitySubmission(request *model.UserActivity) error {
+	return repository.DB.Create(request).Error
+}
