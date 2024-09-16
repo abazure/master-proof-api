@@ -219,7 +219,7 @@ func (service *ActivityServiceImpl) CreateActivitySubmission(request *dto.Create
 		Size   int    `json:"size"`
 		Url    string `json:"url"`
 	}
-	if err := json.Unmarshal(responseBody, &result); err != nil {
+	if err = json.Unmarshal(responseBody, &result); err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, "Failed to parse response: "+err.Error())
 	}
 
@@ -237,6 +237,23 @@ func (service *ActivityServiceImpl) CreateActivitySubmission(request *dto.Create
 	if err2 != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, "Failed to create activity submission: "+err.Error())
 	}
+	return nil
+
+}
+func (service *ActivityServiceImpl) UpdateCommentUserActivity(request *dto.UpdateCommentRequest) error {
+	err := service.Validate.Struct(request)
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, err.Error())
+	}
+	record, _ := service.ActivityRepository.FindByUserIdAndActivityId(request.UserId, request.ActivityId)
+	if record == nil {
+		return fiber.NewError(fiber.StatusNotFound, "User Activity not found")
+	}
+	err = service.ActivityRepository.UpdateUserActivity(record.Id, request.Comment)
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	}
+
 	return nil
 
 }

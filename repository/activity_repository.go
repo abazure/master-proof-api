@@ -7,4 +7,6 @@ type ActivityRepository interface {
 	FindAll() ([]*model.Activity, error)
 	FindById(id string) (*model.Activity, error)
 	CreateActivitySubmission(request *model.UserActivity) error
+	FindByUserIdAndActivityId(userId string, activityId string) (*model.UserActivity, error)
+	UpdateUserActivity(id string, comment string) error
 }

@@ -32,3 +32,15 @@ func (repository *ActivityRepositoryImpl) FindById(id string) (*model.Activity, 
 func (repository *ActivityRepositoryImpl) CreateActivitySubmission(request *model.UserActivity) error {
 	return repository.DB.Create(request).Error
 }
+func (repository *ActivityRepositoryImpl) FindByUserIdAndActivityId(userId string, activityId string) (*model.UserActivity, error) {
+	var user model.UserActivity
+	result := repository.DB.Model(&model.UserActivity{}).Where("user_id = ? AND activity_id = ?", userId, activityId).Order("created_at DESC").Take(&user)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return &user, nil
+}
+
+func (repository *ActivityRepositoryImpl) UpdateUserActivity(id string, comment string) error {
+	return repository.DB.Model(model.UserActivity{}).Where("id = ?", id).Update("comment", comment).Error
+}

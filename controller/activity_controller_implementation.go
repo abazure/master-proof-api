@@ -111,3 +111,30 @@ func (controller *ActivityControllerImpl) CreateActivitySubmission(ctx *fiber.Ct
 	})
 	return nil
 }
+func (controller *ActivityControllerImpl) UpdateComment(ctx *fiber.Ctx) error {
+	var request *dto.UpdateCommentRequest
+	err := ctx.BodyParser(&request)
+	if err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"errors": err.Error(),
+		})
+	}
+	userId := ctx.Query("userId")
+	activityId := ctx.Query("activityId")
+	request.UserId = userId
+	request.ActivityId = activityId
+	err = controller.ActivityService.UpdateCommentUserActivity(request)
+	if err != nil {
+		var fiberErr *fiber.Error
+		if errors.As(err, &fiberErr) {
+			return ctx.Status(fiberErr.Code).JSON(fiber.Map{
+				"errors": err.Error(),
+			})
+		}
+	}
+	ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "Success upload review",
+	})
+	return nil
+
+}

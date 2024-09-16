@@ -7,4 +7,5 @@ type ActivityController interface {
 	FindAllActivity(ctx *fiber.Ctx) error
 	FindById(ctx *fiber.Ctx) error
 	CreateActivitySubmission(ctx *fiber.Ctx) error
+	UpdateComment(ctx *fiber.Ctx) error
 }
