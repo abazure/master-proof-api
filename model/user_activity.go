@@ -10,6 +10,8 @@ type UserActivity struct {
 	Comment    string    `gorm:"column:comment"`
 	CreatedAt  time.Time `gorm:"column:created_at"`
 	File       File      `gorm:"foreignKey:file_id;references:id"`
+	User       User      `gorm:"foreignKey:user_id;references:id"`
+	Activity   Activity  `gorm:"foreignKey:activity_id;references:id"`
 }
 
 func (u *UserActivity) TableName() string {

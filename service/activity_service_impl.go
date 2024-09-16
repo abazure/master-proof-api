@@ -257,3 +257,48 @@ func (service *ActivityServiceImpl) UpdateCommentUserActivity(request *dto.Updat
 	return nil
 
 }
+func (service *ActivityServiceImpl) FindAllUserActivityById(userId string) ([]*dto.FindAllUserActivity, error) {
+	if userId == "" {
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "UserId is must provided")
+	}
+	record, _ := service.ActivityRepository.FindUserActivityByUserId(userId)
+	if record == nil {
+		return nil, fiber.NewError(fiber.StatusNotFound, "User Activity not found")
+	}
+	var result []*dto.FindAllUserActivity
+	for _, data := range record {
+		result = append(result, &dto.FindAllUserActivity{
+			Id:     data.Id,
+			Title:  data.Activity.Name,
+			PdfUrl: data.File.Url,
+		})
+	}
+	if result == nil {
+		return nil, fiber.NewError(fiber.StatusNotFound, "User Activity not found")
+	}
+	return result, nil
+}
+func (service *ActivityServiceImpl) FindOneUserActivityById(userId string, id string) (*dto.FindAllUserActivity, error) {
+	if userId == "" {
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "UserId is must provided")
+	}
+	if id == "" {
+		return nil, fiber.NewError(fiber.StatusInternalServerError, "Id is must provided")
+	}
+	record, _ := service.ActivityRepository.FindOneUserActivityByUserId(userId, id)
+	if record == nil {
+		return nil, fiber.NewError(fiber.StatusNotFound, "User Activity not found")
+	}
+	var result *dto.FindAllUserActivity
+
+	result = &dto.FindAllUserActivity{
+		Id:     record.Id,
+		Title:  record.Activity.Name,
+		PdfUrl: record.File.Url,
+	}
+
+	if result == nil {
+		return nil, fiber.NewError(fiber.StatusNotFound, "User Activity not found")
+	}
+	return result, nil
+}

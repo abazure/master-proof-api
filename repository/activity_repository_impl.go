@@ -44,3 +44,33 @@ func (repository *ActivityRepositoryImpl) FindByUserIdAndActivityId(userId strin
 func (repository *ActivityRepositoryImpl) UpdateUserActivity(id string, comment string) error {
 	return repository.DB.Model(model.UserActivity{}).Where("id = ?", id).Update("comment", comment).Error
 }
+func (repository *ActivityRepositoryImpl) FindUserActivityByUserId(userId string) ([]*model.UserActivity, error) {
+	subQuery := repository.DB.Model(&model.UserActivity{}).
+		Select("activity_id, MAX(created_at) as created_at").
+		Where("user_id = ?", userId).
+		Group("activity_id")
+
+	var userActivities []*model.UserActivity
+	result := repository.DB.Joins("JOIN (?) AS subquery ON user_activities.activity_id = subquery.activity_id AND user_activities.created_at = subquery.created_at", subQuery).Preload("Activity").Preload("File").
+		Where("user_id = ?", userId).
+		Find(&userActivities)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return userActivities, nil
+}
+func (repository *ActivityRepositoryImpl) FindOneUserActivityByUserId(userId string, id string) (*model.UserActivity, error) {
+	subQuery := repository.DB.Model(&model.UserActivity{}).
+		Select("activity_id, MAX(created_at) as created_at").
+		Where("user_id = ?", userId).
+		Group("activity_id")
+
+	var userActivities *model.UserActivity
+	result := repository.DB.Joins("JOIN (?) AS subquery ON user_activities.activity_id = subquery.activity_id AND user_activities.created_at = subquery.created_at", subQuery).Preload("Activity").Preload("File").
+		Where("user_id = ? and id = ? ", userId, id).
+		Find(&userActivities)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return userActivities, nil
+}

@@ -138,3 +138,36 @@ func (controller *ActivityControllerImpl) UpdateComment(ctx *fiber.Ctx) error {
 	return nil
 
 }
+func (controller *ActivityControllerImpl) FindAllUserActivity(ctx *fiber.Ctx) error {
+	userId := ctx.Params("userId")
+	response, err := controller.ActivityService.FindAllUserActivityById(userId)
+	if err != nil {
+		var fiberErr *fiber.Error
+		if errors.As(err, &fiberErr) {
+			return ctx.Status(fiberErr.Code).JSON(fiber.Map{
+				"errors": err.Error(),
+			})
+		}
+	}
+	ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+		"data": response,
+	})
+	return nil
+}
+func (controller *ActivityControllerImpl) FindOneAllUserActivity(ctx *fiber.Ctx) error {
+	userId := ctx.Params("userId")
+	id := ctx.Params("id")
+	response, err := controller.ActivityService.FindOneUserActivityById(userId, id)
+	if err != nil {
+		var fiberErr *fiber.Error
+		if errors.As(err, &fiberErr) {
+			return ctx.Status(fiberErr.Code).JSON(fiber.Map{
+				"errors": err.Error(),
+			})
+		}
+	}
+	ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+		"data": response,
+	})
+	return nil
+}

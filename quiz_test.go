@@ -40,6 +40,32 @@ func TestUUID(t *testing.T) {
 
 }
 
-func TestActivity(t *testing.T) {
+func TestUserActivity(t *testing.T) {
+	db := database.OpenConnection()
+	userId := "PkPLzb6QeFTOJKrmnb1AqxxRPtH2"
+	subQuery := db.Model(&model.UserActivity{}).
+		Select("activity_id, MAX(created_at) as created_at").
+		Where("user_id = ?", userId).
+		Group("activity_id")
 
+	var userActivities []model.UserActivity
+	err := db.Joins("JOIN (?) AS subquery ON user_activities.activity_id = subquery.activity_id AND user_activities.created_at = subquery.created_at", subQuery).Preload("Activity").
+		Where("user_id = ?", userId).
+		Find(&userActivities).Error
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	for _, activity := range userActivities {
+		fmt.Println(activity)
+	}
+}
+
+func TestName(t *testing.T) {
+	db := database.OpenConnection()
+	var userActivities []model.UserActivity
+	db.Model(model.UserActivity{}).Preload("Activity").Find(&userActivities)
+	for _, activity := range userActivities {
+		fmt.Println(activity)
+	}
 }
