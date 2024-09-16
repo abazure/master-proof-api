@@ -29,4 +29,5 @@ func SetupRoute(app *fiber.App, userController controller.UserController, learni
 
 	//ACTIVITY
 	api.Post("/activities/upload/", middleware.FirebaseAuthMiddleware(), activityController.CreateActivity)
+	api.Get("/activities", activityController.FindAllActivity)
 }

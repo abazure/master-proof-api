@@ -4,4 +4,5 @@ import "master-proof-api/model"
 
 type ActivityRepository interface {
 	CreateActivity(request *model.Activity) error
+	FindAll() ([]*model.Activity, error)
 }

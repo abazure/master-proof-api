@@ -174,3 +174,23 @@ func (service *ActivityServiceImpl) CreateActivity(request *dto.CreateActivityRe
 
 	return nil
 }
+
+func (service *ActivityServiceImpl) FindAll() ([]*dto.FindAllActivityResponse, error) {
+	result, err := service.ActivityRepository.FindAll()
+	if err != nil {
+		return nil, fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	}
+	if result == nil {
+		return nil, fiber.NewError(fiber.StatusNotFound, "No result")
+	}
+	var response []*dto.FindAllActivityResponse
+	for _, activity := range result {
+		var data = dto.FindAllActivityResponse{
+			Id:     activity.Id,
+			Title:  activity.Name,
+			PdfUrl: activity.File.Url,
+		}
+		response = append(response, &data)
+	}
+	return response, nil
+}

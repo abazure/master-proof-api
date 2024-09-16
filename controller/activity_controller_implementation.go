@@ -49,3 +49,20 @@ func (controller *ActivityControllerImpl) CreateActivity(ctx *fiber.Ctx) error {
 
 	return nil
 }
+func (controller *ActivityControllerImpl) FindAllActivity(ctx *fiber.Ctx) error {
+	responses, err := controller.ActivityService.FindAll()
+	if err != nil {
+		var fiberErr *fiber.Error
+		if errors.As(err, &fiberErr) {
+			return ctx.Status(fiberErr.Code).JSON(fiber.Map{
+				"errors": err.Error(),
+			})
+		}
+	}
+	ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+		"data": map[string]interface{}{
+			"activities": responses,
+		},
+	})
+	return nil
+}

@@ -78,7 +78,7 @@ func (service *UserServiceImpl) Login(request dto.UserLoginRequest) (dto.UserLog
 	url := fmt.Sprintf("https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=%s", apiKey)
 	user, _ := service.UserRepository.FindById(request.Email, "")
 	if user == nil {
-		return dto.UserLoginResponse{}, errors.New("user not found")
+		return dto.UserLoginResponse{}, fiber.NewError(fiber.StatusUnauthorized, "Email or Password wrong")
 	}
 	requestBody, err := json.Marshal(map[string]interface{}{
 		"email":             request.Email,

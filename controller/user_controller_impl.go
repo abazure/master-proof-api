@@ -74,6 +74,10 @@ func (controller *UserControllerImpl) Login(ctx *fiber.Ctx) error {
 			return ctx.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
 				"errors": err.Error(),
 			})
+		} else {
+			return ctx.Status(fiberErr.Code).JSON(fiber.Map{
+				"errors": err.Error(),
+			})
 		}
 	}
 	return ctx.Status(200).JSON(fiber.Map{
