@@ -23,3 +23,9 @@ func (repository *ActivityRepositoryImpl) FindAll() ([]*model.Activity, error) {
 	err := repository.DB.Model(&model.Activity{}).Preload("File").Find(&activities).Error
 	return activities, err
 }
+
+func (repository *ActivityRepositoryImpl) FindById(id string) (*model.Activity, error) {
+	var activity *model.Activity
+	err := repository.DB.Where("id = ?", id).Preload("File").Take(&activity).Error
+	return activity, err
+}

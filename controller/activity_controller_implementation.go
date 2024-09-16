@@ -66,3 +66,20 @@ func (controller *ActivityControllerImpl) FindAllActivity(ctx *fiber.Ctx) error 
 	})
 	return nil
 }
+func (controller *ActivityControllerImpl) FindById(ctx *fiber.Ctx) error {
+	id := ctx.Params("id")
+	response, err := controller.ActivityService.FindById(id)
+	if err != nil {
+		var fiberErr *fiber.Error
+		if errors.As(err, &fiberErr) {
+			return ctx.Status(fiberErr.Code).JSON(fiber.Map{
+				"errors": err.Error(),
+			})
+
+		}
+	}
+	ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+		"data": response,
+	})
+	return nil
+}
