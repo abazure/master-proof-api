@@ -296,8 +296,7 @@ func (service *ActivityServiceImpl) FindOneUserActivityById(userId string, id st
 		Title:  record.Activity.Name,
 		PdfUrl: record.File.Url,
 	}
-
-	if result == nil {
+	if result.Id == "" {
 		return nil, fiber.NewError(fiber.StatusNotFound, "User Activity not found")
 	}
 	return result, nil

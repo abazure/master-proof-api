@@ -166,6 +166,11 @@ func (controller *ActivityControllerImpl) FindOneAllUserActivity(ctx *fiber.Ctx)
 			})
 		}
 	}
+	if response == nil {
+		return ctx.Status(fiber.StatusNotFound).JSON(fiber.Map{
+			"errors": "User Activity Not Found",
+		})
+	}
 	ctx.Status(fiber.StatusOK).JSON(fiber.Map{
 		"data": response,
 	})
