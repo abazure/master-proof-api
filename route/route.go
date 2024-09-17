@@ -18,6 +18,7 @@ func SetupRoute(app *fiber.App, userController controller.UserController, learni
 
 	//LEARNING_MATERIAL
 	api.Get("/learning-materials", middleware.FirebaseAuthMiddleware(), learningMaterialController.FindAll)
+	api.Post("/learning-materials/upload", learningMaterialController.Create)
 
 	//Quiz
 	api.Get("/quizzes/competences/:name", middleware.FirebaseAuthMiddleware(), quizController.FindQuizWithCorrectAnswer)

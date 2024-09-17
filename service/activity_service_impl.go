@@ -290,11 +290,11 @@ func (service *ActivityServiceImpl) FindOneUserActivityById(userId string, id st
 		return nil, fiber.NewError(fiber.StatusNotFound, "User Activity not found")
 	}
 	var result *dto.FindAllUserActivity
-
 	result = &dto.FindAllUserActivity{
-		Id:     record.Id,
-		Title:  record.Activity.Name,
-		PdfUrl: record.File.Url,
+		Id:      record.Id,
+		Title:   record.Activity.Name,
+		Comment: record.Comment,
+		PdfUrl:  record.File.Url,
 	}
 	if result.Id == "" {
 		return nil, fiber.NewError(fiber.StatusNotFound, "User Activity not found")

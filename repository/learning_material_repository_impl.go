@@ -2,7 +2,7 @@ package repository
 
 import (
 	"gorm.io/gorm"
-	"master-proof-api/dto"
+	"master-proof-api/model"
 )
 
 type LearningMaterialRepositoryImpl struct {
@@ -15,8 +15,15 @@ func NewLearningMaterialRepository(db *gorm.DB) LearningMaterialRepository {
 	}
 }
 
-func (repository LearningMaterialRepositoryImpl) FindAll() ([]*dto.LearningMaterialResponse, error) {
-	var learningMaterial []*dto.LearningMaterialResponse
-	err := repository.DB.Table("learning_materials as lm").Select("lm.id ,lm.title, lm.description, f.url,").Joins("join files as f on f.id = lm.file_id").Take(&learningMaterial).Error
-	return learningMaterial, err
+func (repository LearningMaterialRepositoryImpl) FindAll() ([]*model.LearningMaterial, error) {
+	var learningMaterials []*model.LearningMaterial
+	result := repository.DB.Model(&learningMaterials).Preload("File").Preload("Icon").Find(&learningMaterials)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return learningMaterials, nil
+}
+
+func (repository LearningMaterialRepositoryImpl) Create(request *model.LearningMaterial) error {
+	return repository.DB.Model(model.LearningMaterial{}).Create(request).Error
 }

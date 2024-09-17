@@ -24,14 +24,6 @@ CREATE TABLE icons
     updated_at TIMESTAMP    NOT NULL    DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE learning_material_categories
-(
-    id          VARCHAR(100) PRIMARY KEY DEFAULT GEN_RANDOM_UUID(),
-    title       VARCHAR(100) NOT NULL,
-    description TEXT         NOT NULL,
-    created_at  TIMESTAMP    NOT NULL    DEFAULT CURRENT_TIMESTAMP,
-    updated_at  TIMESTAMP    NOT NULL    DEFAULT CURRENT_TIMESTAMP
-);
 
 CREATE TABLE files(
     id VARCHAR(100) PRIMARY KEY DEFAULT GEN_RANDOM_UUID(),
@@ -45,14 +37,22 @@ CREATE TABLE learning_materials(
     title VARCHAR(100) NOT NULL ,
     description TEXT NOT NULL,
     icon_id VARCHAR(100) UNIQUE ,
-    learning_material_category_id VARCHAR(100) UNIQUE ,
     file_id VARCHAR(100) UNIQUE,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_learning_material_icons FOREIGN KEY (icon_id) REFERENCES icons (id),
-    CONSTRAINT fk_learning_material_categories FOREIGN KEY (learning_material_category_id) REFERENCES learning_material_categories (id),
     CONSTRAINT fk_learning_material_files FOREIGN KEY (file_id) REFERENCES files(id)
 );
+
+CREATE TABLE learning_material_progress(
+    id VARCHAR(100) PRIMARY KEY DEFAULT GEN_RANDOM_UUID(),
+    user_id VARCHAR(100) NOT NULL,
+    learning_material_id VARCHAR(100) NOT NULL,
+    is_finished BOOLEAN DEFAULT FALSE,
+    CONSTRAINT lmp_user_id FOREIGN KEY (user_id) REFERENCES users(id),
+    CONSTRAINT lmp_learning_material_id FOREIGN KEY (learning_material_id) REFERENCES learning_materials(id)
+);
+
 
 
 CREATE TABLE quiz_categories(
@@ -141,4 +141,7 @@ CREATE TABLE  user_activities(
     CONSTRAINT user_activity_user_id FOREIGN KEY (user_id) REFERENCES users(id),
     CONSTRAINT user_activity_activity_id FOREIGN KEY (activity_id) REFERENCES activities(id),
     CONSTRAINT user_activity_file_id FOREIGN KEY (file_id) REFERENCES files(id)
-)
+);
+
+INSERT INTO learning_material_categories(title, description) VALUES ("")
+INSERT INTO files (id, pdf_url, created_at, updated_at)

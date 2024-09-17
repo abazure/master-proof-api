@@ -1,9 +1,10 @@
 package repository
 
 import (
-	"master-proof-api/dto"
+	"master-proof-api/model"
 )
 
 type LearningMaterialRepository interface {
-	FindAll() ([]*dto.LearningMaterialResponse, error)
+	FindAll() ([]*model.LearningMaterial, error)
+	Create(request *model.LearningMaterial) error
 }

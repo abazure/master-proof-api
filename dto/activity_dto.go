@@ -22,7 +22,8 @@ type UpdateCommentRequest struct {
 	Comment    string `json:"comment" validate:"required"`
 }
 type FindAllUserActivity struct {
-	Id     string `json:"id"`
-	Title  string `json:"title"`
-	PdfUrl string `json:"pdf_url"`
+	Id      string `json:"id"`
+	Title   string `json:"title"`
+	Comment string `json:"comment"`
+	PdfUrl  string `json:"pdf_url"`
 }

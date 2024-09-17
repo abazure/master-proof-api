@@ -69,3 +69,13 @@ func TestName(t *testing.T) {
 		fmt.Println(activity)
 	}
 }
+
+func TestLala(t *testing.T) {
+	db := database.OpenConnection()
+	var learningMaterial []model.LearningMaterial
+	db.Model(&model.LearningMaterial{}).Preload("File").Preload("Icon").Find(&learningMaterial)
+	for _, learningMaterial := range learningMaterial {
+		fmt.Println(learningMaterial.File.Url)
+	}
+
+}
