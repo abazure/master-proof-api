@@ -27,3 +27,11 @@ func (repository LearningMaterialRepositoryImpl) FindAll() ([]*model.LearningMat
 func (repository LearningMaterialRepositoryImpl) Create(request *model.LearningMaterial) error {
 	return repository.DB.Model(model.LearningMaterial{}).Create(request).Error
 }
+func (repository LearningMaterialRepositoryImpl) FindById(id string) (*model.LearningMaterial, error) {
+	var learningMaterial model.LearningMaterial
+	result := repository.DB.Model(&model.LearningMaterial{}).Preload("File").Preload("Icon").Where("id = ?", id).First(&learningMaterial)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return &learningMaterial, nil
+}

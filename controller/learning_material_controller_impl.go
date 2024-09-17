@@ -65,3 +65,18 @@ func (controller *LearningMaterialControllerImpl) Create(ctx *fiber.Ctx) error {
 		"message": "Success upload learning material",
 	})
 }
+func (controller *LearningMaterialControllerImpl) FindByID(ctx *fiber.Ctx) error {
+	id := ctx.Params("id")
+	response, err := controller.LearningMaterialService.FindById(id)
+	if err != nil {
+		var fiberErr *fiber.Error
+		if errors.As(err, &fiberErr) {
+			return ctx.Status(fiberErr.Code).JSON(fiber.Map{
+				"errors": err.Error(),
+			})
+		}
+	}
+	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+		"data": response,
+	})
+}

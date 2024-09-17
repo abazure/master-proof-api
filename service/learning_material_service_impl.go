@@ -185,3 +185,23 @@ func uploadFile(file *multipart.FileHeader, filename string, fileType string) (*
 
 	return &result, nil
 }
+
+func (service *LearningMaterialServiceImpl) FindById(learningMaterialId string) (*dto.LearningMaterialResponse, error) {
+	if learningMaterialId == "" {
+		return &dto.LearningMaterialResponse{}, fiber.NewError(fiber.StatusBadRequest, "Failed to find learningMaterialId")
+	}
+	result, _ := service.LearningMaterialRepository.FindById(learningMaterialId)
+	if result == nil {
+		return &dto.LearningMaterialResponse{}, fiber.NewError(fiber.StatusNotFound, "Learning material not found")
+	}
+	learningMaterial := dto.LearningMaterialResponse{
+		ID:          result.ID,
+		Title:       result.Title,
+		Description: result.Description,
+		Icon:        result.Icon.IcUrl,
+		Url:         result.File.Url,
+	}
+
+	return &learningMaterial, nil
+
+}
