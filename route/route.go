@@ -15,6 +15,7 @@ func SetupRoute(app *fiber.App, userController controller.UserController, learni
 	api.Post("/users/login", userController.Login)
 	api.Post("/users/reset-password", userController.ResetPassword)
 	api.Get("/students", middleware.FirebaseAuthMiddleware(), userController.FindByRole)
+	api.Patch("/users/update-photo", middleware.FirebaseAuthMiddleware(), userController.UpdatePhotoProfile)
 
 	//LEARNING_MATERIAL
 	api.Get("/learning-materials", middleware.FirebaseAuthMiddleware(), learningMaterialController.FindAll)

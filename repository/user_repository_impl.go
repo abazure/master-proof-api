@@ -35,3 +35,11 @@ func (repository *UserRepositoryImpl) FindByRole(role string) ([]*model.User, er
 	}
 	return users, nil
 }
+
+func (repository *UserRepositoryImpl) UpdatePhotoProfile(id, photoUrl string) error {
+	result := repository.DB.Model(model.User{}).Where("id = ?", id).Update("photo_url", photoUrl)
+	if result.Error != nil {
+		return result.Error
+	}
+	return nil
+}

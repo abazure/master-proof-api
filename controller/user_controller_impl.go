@@ -137,3 +137,37 @@ func (controller *UserControllerImpl) FindByRole(ctx *fiber.Ctx) error {
 		},
 	})
 }
+
+func (controller *UserControllerImpl) UpdatePhotoProfile(ctx *fiber.Ctx) error {
+	file, err := ctx.FormFile("photo")
+	if err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"errors": err.Error(),
+		})
+	}
+	token := ctx.Locals("user").(*auth.Token)
+	id := token.Claims["user_id"].(string)
+
+	request := dto.UpdateUserPhotoRequest{
+		Id:    id,
+		Photo: file,
+	}
+	err = controller.Validate.Struct(request)
+	if err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"errors": err.Error(),
+		})
+	}
+	err = controller.UserService.UpdatePhotoProfile(&request)
+	if err != nil {
+		var fiberErr *fiber.Error
+		if errors.As(err, &fiberErr) {
+			return ctx.Status(fiberErr.Code).JSON(fiber.Map{
+				"errors": fiberErr.Error(),
+			})
+		}
+	}
+	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "Successfully update photo profile",
+	})
+}

@@ -1,6 +1,9 @@
 package dto
 
-import "master-proof-api/model"
+import (
+	"master-proof-api/model"
+	"mime/multipart"
+)
 
 type UserCreateRequest struct {
 	Nim      string         `validate:"required,numeric" json:"nim"`
@@ -32,4 +35,9 @@ type UserResponse struct {
 type GetUserByRole struct {
 	Id   string `json:"id"`
 	Name string `json:"name"`
+}
+
+type UpdateUserPhotoRequest struct {
+	Id    string                `json:"id" validate:"required"`
+	Photo *multipart.FileHeader `json:"photo" validate:"required"`
 }

@@ -1,6 +1,7 @@
 package service
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"errors"
@@ -8,11 +9,16 @@ import (
 	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv"
+	"io"
 	"log"
 	"master-proof-api/dto"
 	"master-proof-api/model"
 	"master-proof-api/repository"
+	"mime/multipart"
+	"net/http"
 	"os"
+	"path/filepath"
+	"time"
 )
 
 type UserServiceImpl struct {
@@ -176,5 +182,93 @@ func (service *UserServiceImpl) FindByRole(role string) ([]*dto.GetUserByRole, e
 	}
 
 	return result, nil
+
+}
+
+func (service *UserServiceImpl) UpdatePhotoProfile(request *dto.UpdateUserPhotoRequest) error {
+	// Load environment variables
+	if err := godotenv.Load(".env"); err != nil {
+		return fmt.Errorf("error loading .env file: %w", err)
+	}
+
+	file, err := request.Photo.Open()
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed to open file: "+err.Error())
+	}
+	defer file.Close()
+
+	// Determine file extension
+	fileExt := filepath.Ext(request.Photo.Filename)
+	if fileExt == "" {
+		return fiber.NewError(fiber.StatusBadRequest, "File must have an extension")
+	}
+
+	// Generate timestamp
+	timestamp := time.Now().Format("20060102_150405")
+
+	// Create filename with timestamp
+	filename := fmt.Sprintf("%s_%s%s", request.Id, timestamp, fileExt)
+
+	var buffer bytes.Buffer
+	writer := multipart.NewWriter(&buffer)
+
+	if err = writer.WriteField("fileName", filename); err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed to add fileName field: "+err.Error())
+	}
+
+	part, err := writer.CreateFormFile("file", filename)
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed to create form file: "+err.Error())
+	}
+
+	if _, err = io.Copy(part, file); err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed to copy file: "+err.Error())
+	}
+
+	writer.Close()
+
+	imagekitPrivateKey := os.Getenv("IMAGEKIT_PRIVATE_KEY")
+	url := "https://upload.imagekit.io/api/v1/files/upload"
+
+	req, err := http.NewRequest("POST", url, &buffer)
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed to create request: "+err.Error())
+	}
+
+	req.Header.Set("Content-Type", writer.FormDataContentType())
+	req.SetBasicAuth(imagekitPrivateKey, "")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed to send request: "+err.Error())
+	}
+	defer resp.Body.Close()
+
+	responseBody, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed to read response: "+err.Error())
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		return fiber.NewError(resp.StatusCode, "ImageKit API error: "+string(responseBody))
+	}
+
+	var result struct {
+		FileId string `json:"fileId"`
+		Name   string `json:"name"`
+		Size   int    `json:"size"`
+		Url    string `json:"url"`
+	}
+
+	if err = json.Unmarshal(responseBody, &result); err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed to parse response: "+err.Error())
+	}
+
+	err = service.UserRepository.UpdatePhotoProfile(request.Id, result.Url)
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	}
+	return nil
 
 }
