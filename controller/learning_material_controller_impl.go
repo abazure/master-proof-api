@@ -2,6 +2,7 @@ package controller
 
 import (
 	"errors"
+	"firebase.google.com/go/v4/auth"
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
@@ -78,5 +79,27 @@ func (controller *LearningMaterialControllerImpl) FindByID(ctx *fiber.Ctx) error
 	}
 	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
 		"data": response,
+	})
+}
+func (controller *LearningMaterialControllerImpl) SaveProgress(ctx *fiber.Ctx) error {
+	token := ctx.Locals("user").(*auth.Token)
+	userId := token.Claims["user_id"].(string)
+	LearningMaterialId := ctx.Params("id")
+	request := dto.UserSaveProgressRequest{
+		UserID:             userId,
+		LearningMaterialId: LearningMaterialId,
+		IsFinished:         false,
+	}
+	err := controller.LearningMaterialService.UpdateProgress(&request)
+	if err != nil {
+		var fiberErr *fiber.Error
+		if errors.As(err, &fiberErr) {
+			return ctx.Status(fiberErr.Code).JSON(fiber.Map{
+				"errors": err.Error(),
+			})
+		}
+	}
+	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "Success save progress",
 	})
 }

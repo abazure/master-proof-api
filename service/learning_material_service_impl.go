@@ -205,3 +205,21 @@ func (service *LearningMaterialServiceImpl) FindById(learningMaterialId string) 
 	return &learningMaterial, nil
 
 }
+
+func (service *LearningMaterialServiceImpl) UpdateProgress(request *dto.UserSaveProgressRequest) error {
+	record, _ := service.LearningMaterialRepository.FindById(request.LearningMaterialId)
+	if record == nil {
+		return fiber.NewError(fiber.StatusNotFound, "Learning material not found")
+	}
+	userRequest := model.LearningMaterialProgress{
+		ID:                 uuid.New().String(),
+		UserID:             request.UserID,
+		LearningMaterialId: request.LearningMaterialId,
+		IsFinished:         true,
+	}
+	err := service.LearningMaterialRepository.SaveProgress(&userRequest)
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	}
+	return nil
+}

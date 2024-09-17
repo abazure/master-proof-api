@@ -35,3 +35,7 @@ func (repository LearningMaterialRepositoryImpl) FindById(id string) (*model.Lea
 	}
 	return &learningMaterial, nil
 }
+
+func (repository LearningMaterialRepositoryImpl) SaveProgress(progress *model.LearningMaterialProgress) error {
+	return repository.DB.Model(model.LearningMaterialProgress{}).Create(progress).Error
+}
