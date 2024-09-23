@@ -143,5 +143,5 @@ CREATE TABLE  user_activities(
     CONSTRAINT user_activity_file_id FOREIGN KEY (file_id) REFERENCES files(id)
 );
 
-INSERT INTO learning_material_categories(title, description) VALUES ("")
-INSERT INTO files (id, pdf_url, created_at, updated_at)
+-- INSERT INTO learning_material_categories(title, description) VALUES ("")
+-- INSERT INTO files (id, pdf_url, created_at, updated_at)

@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"log"
 	"master-proof-api/config"
 	"master-proof-api/controller"
@@ -39,6 +40,7 @@ func main() {
 	activityController := controller.NewActivityController(activityService)
 
 	app := fiber.New()
+	app.Use(cors.New())
 	route.SetupRoute(app, UserController, learningMaterialController, quizController, activityController)
 
 	app.Get("/", func(c *fiber.Ctx) error {
