@@ -17,9 +17,8 @@ type CreateActivitySubmissionRequest struct {
 	File       *multipart.FileHeader `json:"file;" validate:"required"`
 }
 type UpdateCommentRequest struct {
-	UserId     string `json:"user_id" validate:"required"`
-	ActivityId string `json:"activity_id" validate:"required"`
-	Comment    string `json:"comment" validate:"required"`
+	Id      string
+	Comment string `json:"comment" validate:"required"`
 }
 type FindAllUserActivity struct {
 	Id      string `json:"id"`

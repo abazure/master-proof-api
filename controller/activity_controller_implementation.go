@@ -119,10 +119,8 @@ func (controller *ActivityControllerImpl) UpdateComment(ctx *fiber.Ctx) error {
 			"errors": err.Error(),
 		})
 	}
-	userId := ctx.Query("userId")
-	activityId := ctx.Query("activityId")
-	request.UserId = userId
-	request.ActivityId = activityId
+	id := ctx.Params("id")
+	request.Id = id
 	err = controller.ActivityService.UpdateCommentUserActivity(request)
 	if err != nil {
 		var fiberErr *fiber.Error
@@ -141,6 +139,11 @@ func (controller *ActivityControllerImpl) UpdateComment(ctx *fiber.Ctx) error {
 func (controller *ActivityControllerImpl) FindAllUserActivity(ctx *fiber.Ctx) error {
 	userId := ctx.Params("userId")
 	response, err := controller.ActivityService.FindAllUserActivityById(userId)
+	if response == nil {
+		return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+			"data": []dto.FindAllUserActivity{},
+		})
+	}
 	if err != nil {
 		var fiberErr *fiber.Error
 		if errors.As(err, &fiberErr) {
@@ -155,9 +158,9 @@ func (controller *ActivityControllerImpl) FindAllUserActivity(ctx *fiber.Ctx) er
 	return nil
 }
 func (controller *ActivityControllerImpl) FindOneAllUserActivity(ctx *fiber.Ctx) error {
-	userId := ctx.Params("userId")
+	//userId := ctx.Params("userId")
 	id := ctx.Params("id")
-	response, err := controller.ActivityService.FindOneUserActivityById(userId, id)
+	response, err := controller.ActivityService.FindOneUserActivityById(id)
 	if err != nil {
 		var fiberErr *fiber.Error
 		if errors.As(err, &fiberErr) {
@@ -170,6 +173,29 @@ func (controller *ActivityControllerImpl) FindOneAllUserActivity(ctx *fiber.Ctx)
 		return ctx.Status(fiber.StatusNotFound).JSON(fiber.Map{
 			"errors": "User Activity Not Found",
 		})
+	}
+	ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+		"data": response,
+	})
+	return nil
+}
+
+func (controller *ActivityControllerImpl) FindAllUserActivityForStudent(ctx *fiber.Ctx) error {
+	token := ctx.Locals("user").(*auth.Token)
+	userId := token.Claims["user_id"].(string)
+	response, err := controller.ActivityService.FindAllUserActivityById(userId)
+	if response == nil {
+		return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+			"data": []dto.FindAllUserActivity{},
+		})
+	}
+	if err != nil {
+		var fiberErr *fiber.Error
+		if errors.As(err, &fiberErr) {
+			return ctx.Status(fiberErr.Code).JSON(fiber.Map{
+				"errors": err.Error(),
+			})
+		}
 	}
 	ctx.Status(fiber.StatusOK).JSON(fiber.Map{
 		"data": response,

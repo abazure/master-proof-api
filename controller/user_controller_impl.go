@@ -59,7 +59,9 @@ func (controller *UserControllerImpl) Login(ctx *fiber.Ctx) error {
 	var user dto.UserLoginRequest
 	err := ctx.BodyParser(&user)
 	if err != nil {
-		panic(err)
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"errors": err.Error(),
+		})
 	}
 	err = controller.Validate.Struct(user)
 	if err != nil {

@@ -10,4 +10,5 @@ type ActivityController interface {
 	UpdateComment(ctx *fiber.Ctx) error
 	FindAllUserActivity(ctx *fiber.Ctx) error
 	FindOneAllUserActivity(ctx *fiber.Ctx) error
+	FindAllUserActivityForStudent(ctx *fiber.Ctx) error
 }

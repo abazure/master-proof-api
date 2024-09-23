@@ -16,6 +16,7 @@ func SetupRoute(app *fiber.App, userController controller.UserController, learni
 	api.Post("/users/reset-password", userController.ResetPassword)
 	api.Get("/students", middleware.FirebaseAuthMiddleware(), userController.FindByRole)
 	api.Patch("/users/update-photo", middleware.FirebaseAuthMiddleware(), userController.UpdatePhotoProfile)
+	api.Get("/users/activities", middleware.FirebaseAuthMiddleware(), activityController.FindAllUserActivityForStudent)
 
 	//LEARNING_MATERIAL
 	api.Get("/learning-materials", middleware.FirebaseAuthMiddleware(), learningMaterialController.FindAll)
@@ -36,7 +37,7 @@ func SetupRoute(app *fiber.App, userController controller.UserController, learni
 	api.Get("/activities", middleware.FirebaseAuthMiddleware(), activityController.FindAllActivity)
 	api.Get("/activities/:id", middleware.FirebaseAuthMiddleware(), activityController.FindById)
 	api.Post("/activities/submission/:id", middleware.FirebaseAuthMiddleware(), activityController.CreateActivitySubmission)
-	api.Post("/activities/review/", middleware.FirebaseAuthMiddleware(), activityController.UpdateComment)
+	api.Post("/activities/review/:id", middleware.FirebaseAuthMiddleware(), activityController.UpdateComment)
 	api.Get("/activities/students/:userId", middleware.FirebaseAuthMiddleware(), activityController.FindAllUserActivity)
-	api.Get("/activities/students/:userId/:id", middleware.FirebaseAuthMiddleware(), activityController.FindOneAllUserActivity)
+	api.Get("/activities/students/answered/:id", middleware.FirebaseAuthMiddleware(), activityController.FindOneAllUserActivity)
 }

@@ -245,11 +245,11 @@ func (service *ActivityServiceImpl) UpdateCommentUserActivity(request *dto.Updat
 	if err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
 	}
-	record, _ := service.ActivityRepository.FindByUserIdAndActivityId(request.UserId, request.ActivityId)
-	if record == nil {
-		return fiber.NewError(fiber.StatusNotFound, "User Activity not found")
-	}
-	err = service.ActivityRepository.UpdateUserActivity(record.Id, request.Comment)
+	//record, _ := service.ActivityRepository.FindByUserIdAndActivityId(request.UserId, request.ActivityId)
+	//if record == nil {
+	//	return fiber.NewError(fiber.StatusNotFound, "User Activity not found")
+	//}
+	err = service.ActivityRepository.UpdateUserActivity(request.Id, request.Comment)
 	if err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
 	}
@@ -263,7 +263,7 @@ func (service *ActivityServiceImpl) FindAllUserActivityById(userId string) ([]*d
 	}
 	record, _ := service.ActivityRepository.FindUserActivityByUserId(userId)
 	if record == nil {
-		return nil, fiber.NewError(fiber.StatusNotFound, "User Activity not found")
+		return []*dto.FindAllUserActivity{}, fiber.NewError(fiber.StatusNotFound, "User Activity not found")
 	}
 	var result []*dto.FindAllUserActivity
 	for _, data := range record {
@@ -278,14 +278,14 @@ func (service *ActivityServiceImpl) FindAllUserActivityById(userId string) ([]*d
 	}
 	return result, nil
 }
-func (service *ActivityServiceImpl) FindOneUserActivityById(userId string, id string) (*dto.FindAllUserActivity, error) {
-	if userId == "" {
-		return nil, fiber.NewError(fiber.StatusInternalServerError, "UserId is must provided")
-	}
+func (service *ActivityServiceImpl) FindOneUserActivityById(id string) (*dto.FindAllUserActivity, error) {
+	//if userId == "" {
+	//	return nil, fiber.NewError(fiber.StatusInternalServerError, "UserId is must provided")
+	//}
 	if id == "" {
 		return nil, fiber.NewError(fiber.StatusInternalServerError, "Id is must provided")
 	}
-	record, _ := service.ActivityRepository.FindOneUserActivityByUserId(userId, id)
+	record, _ := service.ActivityRepository.FindOneUserActivityByUserId(id)
 	if record == nil {
 		return nil, fiber.NewError(fiber.StatusNotFound, "User Activity not found")
 	}

@@ -9,5 +9,5 @@ type ActivityService interface {
 	CreateActivitySubmission(request *dto.CreateActivitySubmissionRequest) error
 	UpdateCommentUserActivity(request *dto.UpdateCommentRequest) error
 	FindAllUserActivityById(userId string) ([]*dto.FindAllUserActivity, error)
-	FindOneUserActivityById(userId string, id string) (*dto.FindAllUserActivity, error)
+	FindOneUserActivityById(id string) (*dto.FindAllUserActivity, error)
 }
