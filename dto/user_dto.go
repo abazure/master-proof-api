@@ -33,8 +33,9 @@ type UserResponse struct {
 }
 
 type GetUserByRole struct {
-	Id   string `json:"id"`
-	Name string `json:"name"`
+	Id       string `json:"id"`
+	Name     string `json:"name"`
+	PhotoUrl string `json:"photo_url"`
 }
 
 type UpdateUserPhotoRequest struct {

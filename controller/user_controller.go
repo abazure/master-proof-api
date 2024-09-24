@@ -8,5 +8,6 @@ type UserController interface {
 	Login(ctx *fiber.Ctx) error
 	ResetPassword(ctx *fiber.Ctx) error
 	FindByRole(ctx *fiber.Ctx) error
+	FindAllTeacher(ctx *fiber.Ctx) error
 	UpdatePhotoProfile(ctx *fiber.Ctx) error
 }

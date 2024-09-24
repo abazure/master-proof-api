@@ -175,8 +175,9 @@ func (service *UserServiceImpl) FindByRole(role string) ([]*dto.GetUserByRole, e
 	var result []*dto.GetUserByRole
 	for _, data := range datas {
 		resultDto := dto.GetUserByRole{
-			Id:   data.ID,
-			Name: data.Name,
+			Id:       data.ID,
+			Name:     data.Name,
+			PhotoUrl: data.PhotoUrl,
 		}
 		result = append(result, &resultDto)
 	}
@@ -271,4 +272,24 @@ func (service *UserServiceImpl) UpdatePhotoProfile(request *dto.UpdateUserPhotoR
 	}
 	return nil
 
+}
+
+func (service *UserServiceImpl) FindAllTeacher(role string) ([]*dto.GetUserByRole, error) {
+	role = "TEACHER"
+	datas, err := service.UserRepository.FindByRole(role)
+	if err != nil {
+		return []*dto.GetUserByRole{}, err
+	}
+
+	var result []*dto.GetUserByRole
+	for _, data := range datas {
+		resultDto := dto.GetUserByRole{
+			Id:       data.ID,
+			Name:     data.Name,
+			PhotoUrl: data.PhotoUrl,
+		}
+		result = append(result, &resultDto)
+	}
+
+	return result, nil
 }

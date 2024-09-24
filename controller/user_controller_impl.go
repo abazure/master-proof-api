@@ -173,3 +173,16 @@ func (controller *UserControllerImpl) UpdatePhotoProfile(ctx *fiber.Ctx) error {
 		"message": "Successfully update photo profile",
 	})
 }
+
+func (controller *UserControllerImpl) FindAllTeacher(ctx *fiber.Ctx) error {
+	role := "TEACHER"
+	result, err := controller.UserService.FindAllTeacher(role)
+	if err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{})
+	}
+	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+		"data": map[string]interface{}{
+			"teachers": result,
+		},
+	})
+}
