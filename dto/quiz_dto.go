@@ -10,13 +10,14 @@ type Option struct {
 type QuestionWithCorrectAnswer struct {
 	Id            string   `json:"id"`
 	Question      string   `json:"question"`
-	CorrectAnswer int      `json:"actual_answer_value"`
+	CorrectAnswer *int     `json:"actual_answer_value"`
 	AnswerOptions []Option `json:"answer_options"`
 }
 
 type QuestionWithoutCorrectAnswer struct {
 	Id            string   `json:"id"`
 	Question      string   `json:"question"`
+	CorrectAnswer *int     `json:"actual_answer_value"`
 	AnswerOptions []Option `json:"answer_options"`
 }
 

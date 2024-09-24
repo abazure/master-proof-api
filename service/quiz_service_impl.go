@@ -58,9 +58,14 @@ func (service *QuizServiceImpl) FindQuizWithoutCorrectAnswer(name string) ([]*dt
 
 	for _, quiz := range quizzes {
 		for _, question := range quiz.Questions {
+			var correctAnswer *int
+			if question.CorrectAnswer != nil { // Check if CorrectAnswer is not nil
+				correctAnswer = question.CorrectAnswer // Assign the correct answer if it's present
+			}
 			questionDTO := &dto.QuestionWithoutCorrectAnswer{
-				Id:       question.ID,
-				Question: question.Question,
+				Id:            question.ID,
+				Question:      question.Question,
+				CorrectAnswer: correctAnswer,
 			}
 			for _, answer := range question.Answers {
 				option := dto.Option{
