@@ -2,6 +2,7 @@ package controller
 
 import (
 	"firebase.google.com/go/v4/auth"
+	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"master-proof-api/dto"
 	"master-proof-api/service"
@@ -67,6 +68,12 @@ func (controller *QuizControllerImpl) FindUserDiagnosticReport(ctx *fiber.Ctx) e
 	token := ctx.Locals("user").(*auth.Token)
 	userId := token.Claims["user_id"].(string)
 	quizId := ctx.Params("name")
+	fmt.Println(quizId, userId)
+	if quizId != "learning-modalities-test" && quizId != "prior-knowledge-test" && quizId != "proof-format-preference-test" {
+		return ctx.Status(400).JSON(fiber.Map{
+			"errors": "Invalid quizId. Accepted values are: 'learning-modalities-test', 'prior-knowledge-test', 'proof-format-preference-test'.",
+		})
+	}
 	request := dto.RequestGetDiagnosticResult{
 		UserId:   userId,
 		QuizName: quizId,
@@ -115,6 +122,28 @@ func (controller *QuizControllerImpl) FindUserCompetenceReport(ctx *fiber.Ctx) e
 	}
 
 	result, err := controller.QuizService.FindUserCompetenceReport(request)
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	}
+	return ctx.Status(200).JSON(fiber.Map{
+		"data": result,
+	})
+}
+func (controller *QuizControllerImpl) FindUserDiagnosticReportForTeacher(ctx *fiber.Ctx) error {
+	userId := ctx.Params("userId")
+	quizId := ctx.Params("name")
+
+	if quizId != "learning-modalities-test" && quizId != "prior-knowledge-test" && quizId != "proof-format-preference-test" {
+		return ctx.Status(400).JSON(fiber.Map{
+			"errors": "Invalid quizId. Accepted values are: 'learning-modalities-test', 'prior-knowledge-test', 'proof-format-preference-test'.",
+		})
+	}
+	request := dto.RequestGetDiagnosticResult{
+		UserId:   userId,
+		QuizName: quizId,
+	}
+
+	result, err := controller.QuizService.FindUserDiagnosticReport(request)
 	if err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
 	}
