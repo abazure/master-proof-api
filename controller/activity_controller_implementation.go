@@ -50,6 +50,33 @@ func (controller *ActivityControllerImpl) CreateActivity(ctx *fiber.Ctx) error {
 
 	return nil
 }
+
+func (controller *ActivityControllerImpl) UpdateActivity(ctx *fiber.Ctx) error {
+	id := ctx.Params("id")
+	file, err := ctx.FormFile("file")
+	if err != nil {
+		return err
+	}
+
+	name := ctx.FormValue("name")
+	request := dto.UpdateActivityRequest{
+		Id:   id,
+		File: file,
+		Name: name,
+	}
+	err = controller.ActivityService.UpdateActivity(&request)
+	if err != nil {
+		var fiberErr *fiber.Error
+		if errors.As(err, &fiberErr) {
+			return ctx.Status(fiberErr.Code).JSON(fiber.Map{
+				"errors": err.Error(),
+			})
+		}
+	}
+	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "Success update file",
+	})
+}
 func (controller *ActivityControllerImpl) FindAllActivity(ctx *fiber.Ctx) error {
 	responses, err := controller.ActivityService.FindAll()
 	if err != nil {

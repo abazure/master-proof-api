@@ -14,10 +14,17 @@ func NewActivityRepository(db *gorm.DB) ActivityRepository {
 		DB: db,
 	}
 }
+func (repository *ActivityRepositoryImpl) CreateFile(request *model.File) error {
+	return repository.DB.Model(&model.File{}).Create(request).Error
+}
 
 func (repository *ActivityRepositoryImpl) CreateActivity(request *model.Activity) error {
 	return repository.DB.Create(request).Error
 }
+func (repository *ActivityRepositoryImpl) UpdateActivity(request *model.Activity, id string) error {
+	return repository.DB.Model(&model.Activity{}).Where("id = ?", id).Save(request).Error
+}
+
 func (repository *ActivityRepositoryImpl) FindAll() ([]*model.Activity, error) {
 	var activities []*model.Activity
 	err := repository.DB.Model(&model.Activity{}).Preload("File").Find(&activities).Error

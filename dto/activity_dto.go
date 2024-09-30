@@ -6,6 +6,11 @@ type CreateActivityRequest struct {
 	File *multipart.FileHeader `json:"file;" validate:"required"`
 	Name string                `json:"name;" validate:"required"`
 }
+type UpdateActivityRequest struct {
+	Id   string                `json:"id;" validate:"required"`
+	File *multipart.FileHeader `json:"file;"`
+	Name string                `json:"name;"`
+}
 type FindAllActivityResponse struct {
 	Id     string `json:"id"`
 	Title  string `json:"title"`

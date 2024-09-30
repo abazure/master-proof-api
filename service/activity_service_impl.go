@@ -115,6 +115,119 @@ func (service *ActivityServiceImpl) CreateActivity(request *dto.CreateActivityRe
 	return nil
 }
 
+func (service *ActivityServiceImpl) UpdateActivity(request *dto.UpdateActivityRequest) error {
+
+	record, _ := service.ActivityRepository.FindById(request.Id)
+
+	fmt.Println(record)
+	if record == nil {
+		return fiber.NewError(fiber.StatusNotFound, "Activity Not Found")
+	}
+
+	if err := godotenv.Load(".env"); err != nil {
+		return fmt.Errorf("error loading .env file: %w", err)
+	}
+	err2 := service.Validate.Struct(request)
+	if err2 != nil {
+		return fiber.NewError(fiber.StatusBadRequest, err2.Error())
+	}
+	file, err := request.File.Open()
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed to open file: "+err.Error())
+	}
+	defer file.Close()
+
+	var buffer bytes.Buffer
+
+	writer := multipart.NewWriter(&buffer)
+
+	if err := writer.WriteField("fileName", request.Name+".pdf"); err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed to add fileName field: "+err.Error())
+	}
+
+	part, err := writer.CreateFormFile("file", request.Name+".pdf")
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed to create form file: "+err.Error())
+	}
+
+	if _, err = io.Copy(part, file); err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed to copy file: "+err.Error())
+	}
+
+	writer.Close()
+
+	imagekitPrivateKey := os.Getenv("IMAGEKIT_PRIVATE_KEY")
+	url := "https://upload.imagekit.io/api/v1/files/upload"
+	req, err := http.NewRequest("POST", url, &buffer)
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed to create request: "+err.Error())
+	}
+
+	req.Header.Set("Content-Type", writer.FormDataContentType())
+	req.SetBasicAuth(imagekitPrivateKey, "")
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed to send request: "+err.Error())
+	}
+	defer resp.Body.Close()
+
+	responseBody, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed to read response: "+err.Error())
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		return fiber.NewError(resp.StatusCode, "ImageKit API error: "+string(responseBody))
+	}
+
+	var result struct {
+		FileId string `json:"fileId"`
+		Name   string `json:"name"`
+		Size   int    `json:"size"`
+		Url    string `json:"url"`
+	}
+	if err := json.Unmarshal(responseBody, &result); err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed to parse response: "+err.Error())
+	}
+
+	fmt.Println("result", result)
+
+	if request.Name != "" {
+		record.Name = request.Name
+	}
+
+	if result.FileId != "" {
+		record.FileId = result.FileId
+		record.File.ID = result.FileId
+		record.File.Url = result.Url
+
+	}
+
+	activity := model.Activity{
+		Id:     record.Id,
+		FileId: record.FileId,
+		Name:   record.Name,
+		File: model.File{
+			ID:  record.File.ID,
+			Url: record.File.Url,
+		},
+	}
+	fileResult := model.File{
+		ID:  result.FileId,
+		Url: result.Url,
+	}
+	err = service.ActivityRepository.CreateFile(&fileResult)
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed to create file: "+err.Error())
+	}
+	err = service.ActivityRepository.UpdateActivity(&activity, request.Id)
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed to update activity: "+err.Error())
+	}
+	return nil
+}
+
 func (service *ActivityServiceImpl) FindAll() ([]*dto.FindAllActivityResponse, error) {
 	result, err := service.ActivityRepository.FindAll()
 	if err != nil {
