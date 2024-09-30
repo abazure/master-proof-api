@@ -229,3 +229,22 @@ func (controller *ActivityControllerImpl) FindAllUserActivityForStudent(ctx *fib
 	})
 	return nil
 }
+func (controller *ActivityControllerImpl) DeleteActivity(ctx *fiber.Ctx) error {
+	id := ctx.Params("id")
+	err := controller.ActivityService.DeleteActivityById(id)
+	if err != nil {
+		var fiberErr *fiber.Error
+		if errors.As(err, &fiberErr) {
+			return ctx.Status(fiberErr.Code).JSON(fiber.Map{
+				"errors": err.Error(),
+			})
+		} else {
+			return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"errors": err,
+			})
+		}
+	}
+	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "Success delete activity",
+	})
+}

@@ -414,3 +414,14 @@ func (service *ActivityServiceImpl) FindOneUserActivityById(id string) (*dto.Fin
 	}
 	return result, nil
 }
+func (service *ActivityServiceImpl) DeleteActivityById(id string) error {
+	_, err := service.ActivityRepository.FindById(id)
+	if err != nil {
+		return fiber.NewError(fiber.StatusNotFound, "User Activity not found")
+	}
+	err = service.ActivityRepository.DeleteActivity(id)
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	}
+	return nil
+}

@@ -12,4 +12,5 @@ type ActivityController interface {
 	FindAllUserActivity(ctx *fiber.Ctx) error
 	FindOneAllUserActivity(ctx *fiber.Ctx) error
 	FindAllUserActivityForStudent(ctx *fiber.Ctx) error
+	DeleteActivity(ctx *fiber.Ctx) error
 }

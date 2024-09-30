@@ -11,4 +11,5 @@ type ActivityService interface {
 	UpdateCommentUserActivity(request *dto.UpdateCommentRequest) error
 	FindAllUserActivityById(userId string) ([]*dto.FindAllUserActivity, error)
 	FindOneUserActivityById(id string) (*dto.FindAllUserActivity, error)
+	DeleteActivityById(id string) error
 }

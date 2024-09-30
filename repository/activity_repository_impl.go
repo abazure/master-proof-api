@@ -92,3 +92,6 @@ func (repository *ActivityRepositoryImpl) FindOneUserActivityByUserId(id string)
 	// Return the address of the result to match the expected return type
 	return &result, nil
 }
+func (repository *ActivityRepositoryImpl) DeleteActivity(id string) error {
+	return repository.DB.Where("id = ?", id).Delete(&model.Activity{}).Error
+}

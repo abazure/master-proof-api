@@ -13,4 +13,5 @@ type ActivityRepository interface {
 	FindUserActivityByUserId(userId string) ([]*model.UserActivity, error)
 	FindOneUserActivityByUserId(id string) (*model.UserActivity, error)
 	CreateFile(request *model.File) error
+	DeleteActivity(id string) error
 }
