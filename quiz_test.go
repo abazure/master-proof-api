@@ -79,3 +79,74 @@ func TestLala(t *testing.T) {
 	}
 
 }
+
+func TestCountLearningMaterial(t *testing.T) {
+
+	db := database.OpenConnection()
+	type CountLearningMaterial struct {
+		FinishedMaterial int `gorm:"column:finished_materials"`
+		TotalMaterial    int `gorm:"column:total_materials"`
+	}
+	var Count CountLearningMaterial
+	db.Model(&model.LearningMaterial{}).Select("count(id) as total_materials").Take(&Count)
+	userId := "bFNh872Hs2bNEHEQOqgmy4L5Z7S2"
+	db.Model(&model.LearningMaterialProgress{}).Select("count(distinct learning_material_id) as finished_materials").Where("user_id = ?", userId).Take(&Count)
+	fmt.Println(Count)
+}
+
+func TestDiag(t *testing.T) {
+	db := database.OpenConnection()
+
+	type Data struct {
+		TotalMaterial    int `gorm:"column:total_materials"`
+		FinishedMaterial int `gorm:"column:finished_materials"`
+	}
+
+	var Count Data
+
+	// Ensure you properly query categories with the name 'diagnostic'
+	db.Model(&model.QuizCategory{}).
+		Joins("LEFT JOIN quizzes ON quizzes.quiz_category_id = quiz_categories.id").
+		Select("count(quizzes.id) as total_materials").
+		Where("quiz_categories.name = ?", "diagnostic").
+		Take(&Count)
+	db.Model(&model.UserDiagnosticReport{}).Select("COUNT(DISTINCT quiz_id) as finished_materials").Take(&Count)
+	fmt.Println(Count)
+}
+func TestCompetence(t *testing.T) {
+	db := database.OpenConnection()
+
+	type Data struct {
+		TotalMaterial    int `gorm:"column:total_materials"`
+		FinishedMaterial int `gorm:"column:finished_materials"`
+	}
+
+	var Count Data
+
+	// Ensure you properly query categories with the name 'diagnostic'
+	db.Model(&model.QuizCategory{}).
+		Joins("LEFT JOIN quizzes ON quizzes.quiz_category_id = quiz_categories.id").
+		Select("count(quizzes.id) as total_materials").
+		Where("quiz_categories.name = ?", "competence").
+		Take(&Count)
+	db.Model(&model.UserCompetenceReports{}).Select("COUNT(DISTINCT quiz_name) as finished_materials").Take(&Count)
+	fmt.Println(Count)
+}
+
+func TestActiviti(t *testing.T) {
+	db := database.OpenConnection()
+
+	type Data struct {
+		TotalMaterial    int `gorm:"column:total_materials"`
+		FinishedMaterial int `gorm:"column:finished_materials"`
+	}
+
+	var Count Data
+
+	// Ensure you properly query categories with the name 'diagnostic'
+	db.Model(&model.Activity{}).
+		Select("count(id) as total_materials").
+		Take(&Count)
+	db.Model(&model.UserActivity{}).Select("COUNT(DISTINCT activity_id) as finished_materials").Take(&Count)
+	fmt.Println(Count)
+}

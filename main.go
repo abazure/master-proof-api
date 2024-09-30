@@ -39,9 +39,14 @@ func main() {
 	activityService := service.NewActivityService(activityRepository, validate)
 	activityController := controller.NewActivityController(activityService)
 
+	//Progress
+	progressRepository := repository.NewProgressRepository(db)
+	progressService := service.NewProgressService(progressRepository)
+	progressController := controller.NewProgressController(progressService)
+
 	app := fiber.New()
 	app.Use(cors.New())
-	route.SetupRoute(app, UserController, learningMaterialController, quizController, activityController)
+	route.SetupRoute(app, UserController, learningMaterialController, quizController, activityController, progressController)
 
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("Hello, World!")
