@@ -7,4 +7,5 @@ type LearningMaterialController interface {
 	Create(ctx *fiber.Ctx) error
 	FindByID(ctx *fiber.Ctx) error
 	SaveProgress(ctx *fiber.Ctx) error
+	Update(ctx *fiber.Ctx) error
 }

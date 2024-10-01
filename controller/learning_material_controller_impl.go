@@ -103,3 +103,42 @@ func (controller *LearningMaterialControllerImpl) SaveProgress(ctx *fiber.Ctx) e
 		"message": "Success save progress",
 	})
 }
+func (controller *LearningMaterialControllerImpl) Update(ctx *fiber.Ctx) error {
+	id := ctx.Params("id")
+	pdfFile, _ := ctx.FormFile("file")
+	icon, _ := ctx.FormFile("icon")
+	title := ctx.FormValue("title")
+	description := ctx.FormValue("description")
+
+	request := dto.UpdateLearningMaterialRequest{
+		Id:          id,
+		Title:       title,
+		Description: description,
+		File:        pdfFile,
+		FileName:    uuid.New().String(),
+		Icon:        icon,
+		IconName:    uuid.New().String(),
+	}
+	err := controller.Validate.Struct(&request)
+	if err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"errors": err.Error(),
+		})
+	}
+	err = controller.LearningMaterialService.UpdateLearningMaterial(&request)
+	if err != nil {
+		var fiberErr *fiber.Error
+		if errors.As(err, &fiberErr) {
+			return ctx.Status(fiberErr.Code).JSON(fiber.Map{
+				"errors": err.Error(),
+			})
+		} else {
+			return ctx.Status(fiberErr.Code).JSON(fiber.Map{
+				"errors": err.Error(),
+			})
+		}
+	}
+	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "Success update learning material",
+	})
+}

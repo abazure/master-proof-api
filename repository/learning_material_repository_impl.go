@@ -39,3 +39,14 @@ func (repository LearningMaterialRepositoryImpl) FindById(id string) (*model.Lea
 func (repository LearningMaterialRepositoryImpl) SaveProgress(progress *model.LearningMaterialProgress) error {
 	return repository.DB.Model(model.LearningMaterialProgress{}).Create(progress).Error
 }
+func (repository LearningMaterialRepositoryImpl) Update(request *model.LearningMaterial, id string) error {
+	return repository.DB.Model(&model.LearningMaterial{}).Where("id = ?", id).Updates(request).Error
+}
+func (repository LearningMaterialRepositoryImpl) CreateFile(file *model.File) error {
+	return repository.DB.Model(&model.File{}).Create(file).Error
+}
+
+func (repository LearningMaterialRepositoryImpl) CreateIcon(request *model.Icon) error {
+	return repository.DB.Model(&model.Icon{}).Create(request).Error
+
+}

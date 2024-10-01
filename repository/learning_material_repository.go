@@ -9,4 +9,7 @@ type LearningMaterialRepository interface {
 	Create(request *model.LearningMaterial) error
 	FindById(id string) (*model.LearningMaterial, error)
 	SaveProgress(progress *model.LearningMaterialProgress) error
+	Update(request *model.LearningMaterial, id string) error
+	CreateFile(file *model.File) error
+	CreateIcon(request *model.Icon) error
 }

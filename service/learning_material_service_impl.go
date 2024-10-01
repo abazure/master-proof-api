@@ -223,3 +223,82 @@ func (service *LearningMaterialServiceImpl) UpdateProgress(request *dto.UserSave
 	}
 	return nil
 }
+func (service *LearningMaterialServiceImpl) UpdateLearningMaterial(request *dto.UpdateLearningMaterialRequest) error {
+
+	record, err2 := service.LearningMaterialRepository.FindById(request.Id)
+	if err2 != nil {
+		return fiber.NewError(fiber.StatusNotFound, "Learning material not found")
+	}
+
+	if err := godotenv.Load(".env"); err != nil {
+		return fmt.Errorf("error loading .env file: %w", err)
+	}
+
+	// Validate file types
+	if err := validateFileType(request.File, "application/pdf"); err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, "Invalid PDF file: "+err.Error())
+	}
+	if err := validateFileType(request.Icon, "image/png"); err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, "Invalid icon file: "+err.Error())
+	}
+
+	// Upload files
+	pdfResult, err := uploadFile(request.File, request.FileName+".pdf", "PDF")
+	if err != nil {
+		return err
+	}
+
+	iconResult, err := uploadFile(request.Icon, request.IconName+".png", "Icon")
+	if err != nil {
+		return err
+	}
+	if pdfResult.FileId != "" {
+		record.FileId = pdfResult.FileId
+		record.File.ID = pdfResult.FileId
+		record.File.Url = pdfResult.Url
+
+	}
+
+	if iconResult.FileId != "" {
+		record.IconId = iconResult.FileId
+		record.Icon.Id = iconResult.FileId
+		record.Icon.IcUrl = iconResult.Url
+
+	}
+
+	if request.Title != "" {
+		record.Title = request.Title
+	}
+	if request.Description != "" {
+		record.Description = request.Description
+	}
+	err = service.LearningMaterialRepository.CreateFile(&model.File{
+		ID:  pdfResult.FileId,
+		Url: pdfResult.Url,
+	})
+	err = service.LearningMaterialRepository.CreateIcon(&model.Icon{
+		Id:    iconResult.FileId,
+		IcUrl: iconResult.Url,
+	})
+
+	// Create learning material
+	learningMaterial := model.LearningMaterial{
+		FileId:      record.FileId,
+		IconId:      record.IconId,
+		Title:       record.Title,
+		Description: record.Description,
+		File: model.File{
+			ID:  record.File.ID,
+			Url: record.File.Url,
+		},
+		Icon: model.Icon{
+			Id:    record.Icon.Id,
+			IcUrl: record.Icon.IcUrl,
+		},
+	}
+	err = service.LearningMaterialRepository.Update(&learningMaterial, request.Id)
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	}
+	return nil
+}

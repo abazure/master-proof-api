@@ -18,6 +18,15 @@ type CreateLearningMaterialRequest struct {
 	Icon        *multipart.FileHeader `json:"icon" validate:"required"`
 	IconName    string                `json:"icon_name;" validate:"required"`
 }
+type UpdateLearningMaterialRequest struct {
+	Id          string                `json:"id" validate:"required"`
+	Title       string                `json:"title"`
+	Description string                `json:"description"`
+	File        *multipart.FileHeader `json:"file;"`
+	FileName    string                `json:"file_name;"`
+	Icon        *multipart.FileHeader `json:"icon"`
+	IconName    string                `json:"icon_name;"`
+}
 
 type UserSaveProgressRequest struct {
 	UserID             string `json:"user_id" validate:"required"`
