@@ -302,3 +302,14 @@ func (service *LearningMaterialServiceImpl) UpdateLearningMaterial(request *dto.
 	}
 	return nil
 }
+func (service *LearningMaterialServiceImpl) Delete(learningMaterialId string) error {
+	_, err := service.LearningMaterialRepository.FindById(learningMaterialId)
+	if err != nil {
+		return fiber.NewError(fiber.StatusNotFound, "Learning material not found")
+	}
+	err = service.LearningMaterialRepository.Delete(learningMaterialId)
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	}
+	return nil
+}

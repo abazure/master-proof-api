@@ -50,3 +50,6 @@ func (repository LearningMaterialRepositoryImpl) CreateIcon(request *model.Icon)
 	return repository.DB.Model(&model.Icon{}).Create(request).Error
 
 }
+func (repository LearningMaterialRepositoryImpl) Delete(id string) error {
+	return repository.DB.Model(&model.LearningMaterial{}).Where("id = ?", id).Delete(&model.LearningMaterial{}).Error
+}

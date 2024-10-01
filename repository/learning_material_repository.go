@@ -12,4 +12,5 @@ type LearningMaterialRepository interface {
 	Update(request *model.LearningMaterial, id string) error
 	CreateFile(file *model.File) error
 	CreateIcon(request *model.Icon) error
+	Delete(id string) error
 }

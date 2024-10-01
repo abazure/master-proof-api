@@ -142,3 +142,26 @@ func (controller *LearningMaterialControllerImpl) Update(ctx *fiber.Ctx) error {
 		"message": "Success update learning material",
 	})
 }
+func (controller *LearningMaterialControllerImpl) Delete(ctx *fiber.Ctx) error {
+	id := ctx.Params("id")
+	if id == "" {
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"errors": "id must not be empty",
+		})
+	}
+	err := controller.LearningMaterialService.Delete(id)
+	if err != nil {
+		var fiberErr *fiber.Error
+		if errors.As(err, &fiberErr) {
+			return ctx.Status(fiberErr.Code).JSON(fiber.Map{
+				"errors": err.Error(),
+			})
+		}
+		return ctx.Status(fiberErr.Code).JSON(fiber.Map{
+			"errors": err.Error(),
+		})
+	}
+	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "Success delete learning material",
+	})
+}
