@@ -41,7 +41,7 @@ func (service *ProgressServiceImpl) GetDashboardMenu(userId string) ([]*dto.Menu
 	result := []*dto.MenuDashboardResponse{
 		{
 			Category:          "pre-test",
-			Endpoint:          "diagnostic",
+			Endpoint:          "diagnostic-test",
 			Title:             "Diagnostic Test",
 			IcUrl:             "https://ik.imagekit.io/q1qexvvey/diagnostic_ic.png?updatedAt=1725337675997",
 			Desc:              "lorem ipsum dolor sit amet",
