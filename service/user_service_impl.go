@@ -176,6 +176,8 @@ func (service *UserServiceImpl) FindByRole(role string) ([]*dto.GetUserByRole, e
 	for _, data := range datas {
 		resultDto := dto.GetUserByRole{
 			Id:       data.ID,
+			Email:    data.Email,
+			Nim:      data.NIM,
 			Name:     data.Name,
 			PhotoUrl: data.PhotoUrl,
 		}
@@ -284,7 +286,9 @@ func (service *UserServiceImpl) FindAllTeacher(role string) ([]*dto.GetUserByRol
 	var result []*dto.GetUserByRole
 	for _, data := range datas {
 		resultDto := dto.GetUserByRole{
-			Id:       data.ID,
+			Id:    data.ID,
+			Email: data.Email,
+			//Nim:      data.NIM,
 			Name:     data.Name,
 			PhotoUrl: data.PhotoUrl,
 		}

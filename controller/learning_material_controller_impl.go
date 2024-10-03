@@ -3,6 +3,7 @@ package controller
 import (
 	"errors"
 	"firebase.google.com/go/v4/auth"
+	"fmt"
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
@@ -119,6 +120,8 @@ func (controller *LearningMaterialControllerImpl) Update(ctx *fiber.Ctx) error {
 		Icon:        icon,
 		IconName:    uuid.New().String(),
 	}
+
+	fmt.Println(request)
 	err := controller.Validate.Struct(&request)
 	if err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
