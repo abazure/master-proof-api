@@ -15,6 +15,7 @@ import (
 	"mime/multipart"
 	"net/http"
 	"os"
+	"sort"
 )
 
 type ActivityServiceImpl struct {
@@ -378,6 +379,9 @@ func (service *ActivityServiceImpl) FindAllUserActivityById(userId string) ([]*d
 	if record == nil {
 		return []*dto.FindAllUserActivity{}, fiber.NewError(fiber.StatusNotFound, "User Activity not found")
 	}
+	sort.Slice(record, func(i, j int) bool {
+		return record[i].Activity.Name < record[j].Activity.Name
+	})
 	var result []*dto.FindAllUserActivity
 	for _, data := range record {
 		result = append(result, &dto.FindAllUserActivity{

@@ -3,6 +3,7 @@ package service
 import (
 	"master-proof-api/dto"
 	"master-proof-api/repository"
+	"math"
 )
 
 type ProgressServiceImpl struct {
@@ -78,6 +79,47 @@ func (service *ProgressServiceImpl) GetDashboardMenu(userId string) ([]*dto.Menu
 			FinishedMaterials: competenceData.FinishedMaterials,
 			TotalMaterials:    competenceData.TotalMaterials,
 			IsLocked:          statusActivity,
+		},
+	}
+	return result, nil
+}
+
+func (service *ProgressServiceImpl) GetProgressPercentage(userId string) ([]*dto.ProgressPercentageResponse, error) {
+	diagnostic, _ := service.ProgressRepository.GetDiagnosticTestData(userId)
+	diagnosticPercentage := int(math.Round((float64(diagnostic.FinishedMaterials) / float64(diagnostic.TotalMaterials)) * 100))
+
+	// Learning Material
+	learningMaterialData, _ := service.ProgressRepository.GetLearningMaterialData(userId)
+	learningMaterialPercentage := int(math.Round((float64(learningMaterialData.FinishedMaterials) / float64(learningMaterialData.TotalMaterials)) * 100))
+
+	// Activity
+	activityData, _ := service.ProgressRepository.GetActivityData(userId)
+	activityPercentage := int(math.Round((float64(activityData.FinishedMaterials) / float64(activityData.TotalMaterials)) * 100))
+
+	// Competence
+	competenceData, _ := service.ProgressRepository.GetCompetenceData(userId)
+	competencePercentage := int(math.Round((float64(competenceData.FinishedMaterials) / float64(competenceData.TotalMaterials)) * 100))
+
+	result := []*dto.ProgressPercentageResponse{
+		{
+			Id:               "diagnostic-test-report",
+			Title:            "Diagnostic Test",
+			FinishedProgress: diagnosticPercentage,
+		},
+		{
+			Id:               "introduction-proof-report",
+			Title:            "Introduction to Proof",
+			FinishedProgress: learningMaterialPercentage,
+		},
+		{
+			Id:               "understanding-proof-report",
+			Title:            "Understanding of Proof Structure",
+			FinishedProgress: activityPercentage,
+		},
+		{
+			Id:               "proof-competence-report",
+			Title:            "Proof Competence Test",
+			FinishedProgress: competencePercentage,
 		},
 	}
 	return result, nil

@@ -15,3 +15,9 @@ type CountData struct {
 	FinishedMaterials int `json:"finished_materials"`
 	TotalMaterials    int `json:"total_materials"`
 }
+
+type ProgressPercentageResponse struct {
+	Id               string `json:"id"`
+	Title            string `json:"title"`
+	FinishedProgress int    `json:"finished_progress"`
+}
