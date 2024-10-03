@@ -43,3 +43,16 @@ func (controller *ProgressControllerImpl) GetUserProgress(ctx *fiber.Ctx) error 
 	})
 
 }
+func (controller *ProgressControllerImpl) GetUserProgressById(ctx *fiber.Ctx) error {
+	userId := ctx.Params("userId")
+	responses, err := controller.ProgressService.GetProgressPercentage(userId)
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	}
+	return ctx.Status(200).JSON(fiber.Map{
+		"data": map[string]interface{}{
+			"student_id": userId,
+			"reports":    responses,
+		},
+	})
+}
