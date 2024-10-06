@@ -33,3 +33,13 @@ type UserSaveProgressRequest struct {
 	LearningMaterialId string `json:"learning_material_id" validate:"required"`
 	IsFinished         bool   `json:"is_finished"`
 }
+
+type UserLearningMaterialProgressResponse struct {
+	FinishedCount int    `json:"finished_count"`
+	Text          string `json:"text"`
+	TotalCount    int    `json:"total_count"`
+}
+
+type UserLearningMaterialProgressData struct {
+	FinishedCount int `json:"finished_count"`
+}

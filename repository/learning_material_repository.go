@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"master-proof-api/dto"
 	"master-proof-api/model"
 )
 
@@ -13,4 +14,6 @@ type LearningMaterialRepository interface {
 	CreateFile(file *model.File) error
 	CreateIcon(request *model.Icon) error
 	Delete(id string) error
+	FindLearningMaterialByTitle(title string) (*model.LearningMaterial, error)
+	FindUserLearningMaterialProgress(lmId string, UserId string) (*dto.UserLearningMaterialProgressData, error)
 }

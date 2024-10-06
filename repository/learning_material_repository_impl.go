@@ -2,6 +2,7 @@ package repository
 
 import (
 	"gorm.io/gorm"
+	"master-proof-api/dto"
 	"master-proof-api/model"
 )
 
@@ -52,4 +53,30 @@ func (repository LearningMaterialRepositoryImpl) CreateIcon(request *model.Icon)
 }
 func (repository LearningMaterialRepositoryImpl) Delete(id string) error {
 	return repository.DB.Model(&model.LearningMaterial{}).Where("id = ?", id).Delete(&model.LearningMaterial{}).Error
+}
+
+func (repository LearningMaterialRepositoryImpl) FindLearningMaterialByTitle(title string) (*model.LearningMaterial, error) {
+	var learningMaterial model.LearningMaterial
+	repository.DB.Model(&model.LearningMaterial{}).Where("title = ?", title).Take(&learningMaterial)
+	if learningMaterial.Title == "" {
+		return nil, nil
+	}
+	return &learningMaterial, nil
+}
+
+func (repository LearningMaterialRepositoryImpl) FindUserLearningMaterialProgress(lmId string, userId string) (*dto.UserLearningMaterialProgressData, error) {
+	var learningMaterialProgress dto.UserLearningMaterialProgressData
+
+	// Perform the query
+	err := repository.DB.Model(&model.LearningMaterialProgress{}).
+		Select("COUNT(id) as finished_count").
+		Where("learning_material_id = ? AND user_id = ?", lmId, userId).
+		Take(&learningMaterialProgress).Error
+
+	// Check for errors
+	if err != nil {
+		return nil, err
+	}
+
+	return &learningMaterialProgress, nil
 }

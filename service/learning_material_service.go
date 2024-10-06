@@ -9,4 +9,5 @@ type LearningMaterialService interface {
 	UpdateProgress(request *dto.UserSaveProgressRequest) error
 	UpdateLearningMaterial(request *dto.UpdateLearningMaterialRequest) error
 	Delete(learningMaterialId string) error
+	FindUserLearningMaterialProgress(userId string) ([]*dto.UserLearningMaterialProgressResponse, error)
 }

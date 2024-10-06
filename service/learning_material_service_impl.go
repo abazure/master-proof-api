@@ -313,3 +313,33 @@ func (service *LearningMaterialServiceImpl) Delete(learningMaterialId string) er
 	}
 	return nil
 }
+
+func (service *LearningMaterialServiceImpl) FindUserLearningMaterialProgress(userId string) ([]*dto.UserLearningMaterialProgressResponse, error) {
+	teoremaRecord, _ := service.LearningMaterialRepository.FindLearningMaterialByTitle("Teorema")
+	aksiomaRecord, _ := service.LearningMaterialRepository.FindLearningMaterialByTitle("Aksioma")
+	dotRecord, _ := service.LearningMaterialRepository.FindLearningMaterialByTitle("Definition of Terms")
+
+	teoremaProgress, _ := service.LearningMaterialRepository.FindUserLearningMaterialProgress(teoremaRecord.ID, userId)
+	akiomaProgress, _ := service.LearningMaterialRepository.FindUserLearningMaterialProgress(aksiomaRecord.ID, userId)
+	dotProgress, _ := service.LearningMaterialRepository.FindUserLearningMaterialProgress(dotRecord.ID, userId)
+
+	result := []*dto.UserLearningMaterialProgressResponse{
+		{
+			FinishedCount: teoremaProgress.FinishedCount,
+			Text:          "Teorema",
+			TotalCount:    1,
+		},
+		{
+			FinishedCount: akiomaProgress.FinishedCount,
+			Text:          "Axioma",
+			TotalCount:    1,
+		},
+		{
+			FinishedCount: dotProgress.FinishedCount,
+			Text:          "Definition of Terms",
+			TotalCount:    1,
+		},
+	}
+	return result, nil
+
+}

@@ -50,6 +50,7 @@ func SetupRoute(app *fiber.App, userController controller.UserController, learni
 	//Progress
 	api.Get("/dashboard", middleware.FirebaseAuthMiddleware(), progressController.GetMenuDashboard)
 	api.Get("/progress", middleware.FirebaseAuthMiddleware(), progressController.GetUserProgress)
-	api.Get("/progress/userId", middleware.FirebaseAuthMiddleware(), progressController.GetUserProgressById)
+	api.Get("/progress/:userId", middleware.FirebaseAuthMiddleware(), progressController.GetUserProgressById)
+	api.Get("/users/learning-material/progress", middleware.FirebaseAuthMiddleware(), learningMaterialController.FindUserProgress)
 
 }
