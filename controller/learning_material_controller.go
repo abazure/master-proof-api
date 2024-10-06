@@ -10,4 +10,5 @@ type LearningMaterialController interface {
 	Update(ctx *fiber.Ctx) error
 	Delete(ctx *fiber.Ctx) error
 	FindUserProgress(ctx *fiber.Ctx) error
+	FindUserProgressById(ctx *fiber.Ctx) error
 }

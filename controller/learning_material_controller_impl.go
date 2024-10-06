@@ -170,9 +170,26 @@ func (controller *LearningMaterialControllerImpl) Delete(ctx *fiber.Ctx) error {
 }
 
 func (controller *LearningMaterialControllerImpl) FindUserProgress(ctx *fiber.Ctx) error {
-	//token := ctx.Locals("user").(*auth.Token)
-	//userId := token.Claims["user_id"].(string)
-	userId := "bFNh872Hs2bNEHEQOqgmy4L5Z7S2"
+	token := ctx.Locals("user").(*auth.Token)
+	userId := token.Claims["user_id"].(string)
+
+	response, err := controller.LearningMaterialService.FindUserLearningMaterialProgress(userId)
+	if err != nil {
+		var fiberErr *fiber.Error
+		if errors.As(err, &fiberErr) {
+			return ctx.Status(fiberErr.Code).JSON(fiber.Map{
+				"errors": err.Error(),
+			})
+		}
+	}
+	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
+		"data": map[string]interface{}{
+			"items": response,
+		},
+	})
+}
+func (controller *LearningMaterialControllerImpl) FindUserProgressById(ctx *fiber.Ctx) error {
+	userId := ctx.Params("userId")
 
 	response, err := controller.LearningMaterialService.FindUserLearningMaterialProgress(userId)
 	if err != nil {
