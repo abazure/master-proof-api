@@ -35,6 +35,7 @@ func SetupRoute(app *fiber.App, userController controller.UserController, learni
 	api.Post("/quizzes/competences/:name", middleware.FirebaseAuthMiddleware(), quizController.CreateUserCompetenceReport)
 	api.Get("/reports/competences/:name", middleware.FirebaseAuthMiddleware(), quizController.FindUserCompetenceReport)
 	api.Get("/reports/diagnostics/:name/:userId", middleware.FirebaseAuthMiddleware(), quizController.FindUserDiagnosticReportForTeacher)
+	api.Get("/reports/competences/:name/:userId", middleware.FirebaseAuthMiddleware(), quizController.FindUserCompetenceReportForTeacher)
 
 	//ACTIVITY
 	api.Post("/activities/upload/", middleware.FirebaseAuthMiddleware(), activityController.CreateActivity)
@@ -52,6 +53,6 @@ func SetupRoute(app *fiber.App, userController controller.UserController, learni
 	api.Get("/progress", middleware.FirebaseAuthMiddleware(), progressController.GetUserProgress)
 	api.Get("/progress/:userId", middleware.FirebaseAuthMiddleware(), progressController.GetUserProgressById)
 	api.Get("/users/learning-material/progress", middleware.FirebaseAuthMiddleware(), learningMaterialController.FindUserProgress)
-	api.Get("/learning-material/progress/userId", middleware.FirebaseAuthMiddleware(), learningMaterialController.FindUserProgressById)
+	api.Get("/learning-material/progress/:userId", middleware.FirebaseAuthMiddleware(), learningMaterialController.FindUserProgressById)
 
 }

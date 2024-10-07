@@ -146,7 +146,7 @@ func (service *QuizServiceImpl) FindUserCompetenceReport(request dto.RequestGetC
 
 	report, err := service.QuizRepository.FindUserCompetenceReport(request.UserId, request.QuizName)
 	if err != nil {
-		return nil, err
+		return nil, fiber.NewError(fiber.StatusNotFound, err.Error())
 	}
 	result := &dto.ResponseCompetenceReport{
 		StudentId: report.UserId,

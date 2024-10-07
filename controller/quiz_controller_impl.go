@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"errors"
 	"firebase.google.com/go/v4/auth"
 	"fmt"
 	"github.com/gofiber/fiber/v2"
@@ -146,6 +147,28 @@ func (controller *QuizControllerImpl) FindUserDiagnosticReportForTeacher(ctx *fi
 	result, err := controller.QuizService.FindUserDiagnosticReport(request)
 	if err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
+	}
+	return ctx.Status(200).JSON(fiber.Map{
+		"data": result,
+	})
+}
+func (controller *QuizControllerImpl) FindUserCompetenceReportForTeacher(ctx *fiber.Ctx) error {
+
+	userId := ctx.Params("userId")
+	quizId := ctx.Params("name")
+	request := dto.RequestGetCompetenceResult{
+		UserId:   userId,
+		QuizName: quizId,
+	}
+
+	result, err := controller.QuizService.FindUserCompetenceReport(request)
+	if err != nil {
+		var fiberErr *fiber.Error
+		if errors.As(err, &fiberErr) {
+			return ctx.Status(fiberErr.Code).JSON(fiber.Map{
+				"errors": err.Error(),
+			})
+		}
 	}
 	return ctx.Status(200).JSON(fiber.Map{
 		"data": result,
