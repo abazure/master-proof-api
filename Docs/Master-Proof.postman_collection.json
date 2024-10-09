@@ -1,0 +1,1648 @@
+{
+	"info": {
+		"_postman_id": "6fe56dcf-8191-4cb7-9737-4533ecfcfb0a",
+		"name": "Master-Proof",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27655279",
+		"_collection_link": "https://kawakawa-3367.postman.co/workspace/KawaKawa-Workspace~3269aa51-3029-4c53-a27f-c33e2ce40c99/collection/27655279-6fe56dcf-8191-4cb7-9737-4533ecfcfb0a?action=share&source=collection_link&creator=27655279"
+	},
+	"item": [
+		{
+			"name": "reports",
+			"item": [
+				{
+					"name": "diagnostics",
+					"item": [
+						{
+							"name": "prior-knowledge-test",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"result\":\"SURFACE\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/quizzes/diagnostics/prior-knowledge-test",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"quizzes",
+										"diagnostics",
+										"prior-knowledge-test"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "prior-knowledge-test",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"result\":\"SURFACE\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/reports/diagnostics/prior-knowledge-test",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"reports",
+										"diagnostics",
+										"prior-knowledge-test"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "proof-format-preference-test",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"result\":\"PREFERENSI DUA-KOLOM BUKTI\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/quizzes/diagnostics/proof-format-preference-test",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"quizzes",
+										"diagnostics",
+										"proof-format-preference-test"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "proof-format-preference-test",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"result\":\"SURFACE\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/reports/diagnostics/proof-format-preference-test",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"reports",
+										"diagnostics",
+										"proof-format-preference-test"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "learning-modalities-test",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"result\":\"SURFACE\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/quizzes/diagnostics/learning-modalities-test",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"quizzes",
+										"diagnostics",
+										"learning-modalities-test"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "learning-modalities-test",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"result\":\"SURFACE\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/reports/diagnostics/learning-modalities-test",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"reports",
+										"diagnostics",
+										"learning-modalities-test"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "diagnostics For Teacher",
+					"item": [
+						{
+							"name": "prior-knowledge-test",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"result\":\"SURFACE\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/reports/diagnostics/:name/:userId",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"reports",
+										"diagnostics",
+										":name",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "name",
+											"value": "prior-knowledge-test"
+										},
+										{
+											"key": "userId",
+											"value": "nQnrJsWDRAYvvOlcUDEYaivvTim1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "proof-format-preference-test",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"result\":\"SURFACE\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/reports/diagnostics/:name/:userId",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"reports",
+										"diagnostics",
+										":name",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "name",
+											"value": "proof-format-preference-test"
+										},
+										{
+											"key": "userId",
+											"value": "nQnrJsWDRAYvvOlcUDEYaivvTim1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "learning-modalities-test",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"result\":\"SURFACE\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/reports/diagnostics/:name/:userId",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"reports",
+										"diagnostics",
+										":name",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "name",
+											"value": "learning-modalities-test"
+										},
+										{
+											"key": "userId",
+											"value": "nQnrJsWDRAYvvOlcUDEYaivvTim1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "competence",
+					"item": [
+						{
+							"name": "reading-comprehension-test",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "\n{\n    \"score\":100\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/quizzes/competences/reading-comprehension-test",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"quizzes",
+										"competences",
+										"reading-comprehension-test"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "reading-comprehension-test",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"result\":\"SURFACE\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/reports/competences/reading-comprehension-test",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"reports",
+										"competences",
+										"reading-comprehension-test"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "competence For Teacher",
+					"item": [
+						{
+							"name": "reading-comprehension-test",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"result\":\"SURFACE\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/reports/competences/reading-comprehension-test/:userId",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"reports",
+										"competences",
+										"reading-comprehension-test",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "bFNh872Hs2bNEHEQOqgmy4L5Z7S"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "Register new user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// {\n//     \"role\": \"TEACHER\",\n//     \"name\":\"tacher dev\",\n//     \"nim\":\"00\",\n//     \"email\":\"teacherteacher@dev.com\",\n//     \"password\":\"teacherteacher@dev.com\"\n// }\n\n\n\n{\n\n    \"name\":\"teacher21\",\n    \"nim\":\"11111111111122\",\n    \"email\":\"teacher21@gmail.com\",\n    \"password\":\"teacher21@gmail.com\",\n    \"role\":\"TEACHER\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/users",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"teacher1@gmail.com\",\n    \"password\":\"teacher1@gmail.com\"\n}\n\n\n\n// {\n//     \"email\": \"teacherteacher@dev.com\",\n//     \"password\": \"teacherteacher@dev.com\"\n// }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/users/login",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Login user",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\":\"teacher1@gmail.com\",\n    \"password\":\"teacher1@gmail.com\"\n}\n\n\n\n// {\n//     \"email\": \"teacherteacher@dev.com\",\n//     \"password\": \"teacherteacher@dev.com\"\n// }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/users/login",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"users",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 07 Oct 2024 03:43:30 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "975"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"token\": \"eyJhbGciOiJSUzI1NiIsImtpZCI6IjhkNzU2OWQyODJkNWM1Mzk5MmNiYWZjZWI2NjBlYmQ0Y2E1OTMxM2EiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoidGVhY2hlcjEiLCJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vcHJvb2YtbWFzdGVyIiwiYXVkIjoicHJvb2YtbWFzdGVyIiwiYXV0aF90aW1lIjoxNzI4MjcyNjEwLCJ1c2VyX2lkIjoiSWR5Rjd1dUdkVWdadm5wYzhPWGtXSWI4UnI4MyIsInN1YiI6IklkeUY3dXVHZFVnWnZucGM4T1hrV0liOFJyODMiLCJpYXQiOjE3MjgyNzI2MTAsImV4cCI6MTcyODI3NjIxMCwiZW1haWwiOiJ0ZWFjaGVyMUBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsidGVhY2hlcjFAZ21haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.CKYvam6NsM58bytPrIwfaIvpZIx20DxUBbO1aryVlBqvQWc9UdrTU9txKuTItx6jcE1qnmopRqvcouvPJ9S26lRa4EI-gUojflDO-vBaJnVy3TGtPdCD2Uzh2MTC7j_uXkGtIXnCNIOJviCEmkQ_Xk5vzIqZBJIEpRiIA0a5fVKpPtmsRoHJkv5wR_kwqYbgySdGVVwSXcAXTbvwB5BZ1OmUkC_3w7AQfjSQQITokN_Kun801jFrIR1A7ZeRrN43T3zWa9pOvsbAPHz8FUiJ_5B9S8KH-3vx70WimMvPyRpbYPUkOGdMBld3S93t6lYbWiIiBzgK1NJBDAwjkNU5eg\",\n        \"role\": \"TEACHER\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Reset password",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"roniragil11@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/users/reset-password",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"reset-password"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "User profile",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/users/profile",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Photo Profile",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "photo",
+									"type": "file",
+									"src": "/home/roni/Desktop/d.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/users/update-photo",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"update-photo"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "students",
+			"item": [
+				{
+					"name": "[TEACHER] All students",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/students",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"students"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Teachers",
+			"item": [
+				{
+					"name": "[ADMIN] get all teachers",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/teachers",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"teachers"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "quiz",
+			"item": [
+				{
+					"name": "diagnostic",
+					"item": [
+						{
+							"name": "prior-knowledge-test",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/api/quizzes/diagnostics/prior-knowledge-test",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"quizzes",
+										"diagnostics",
+										"prior-knowledge-test"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "proof-format-preference-test",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/api/quizzes/diagnostics/proof-format-preference-test",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"quizzes",
+										"diagnostics",
+										"proof-format-preference-test"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "learning-modalities-test",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/api/quizzes/diagnostics/learning-modalities-test",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"quizzes",
+										"diagnostics",
+										"learning-modalities-test"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "competence",
+					"item": [
+						{
+							"name": "reading-comprehension-test",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/api/quizzes/competences/reading-comprehension-test",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"quizzes",
+										"competences",
+										"reading-comprehension-test"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Activities",
+			"item": [
+				{
+					"name": "[ADMIN] post activity",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/home/roni/Documents/dhss+ biodata.pdf"
+								},
+								{
+									"key": "name",
+									"value": "Aktivitas 69",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/activities/upload",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"activities",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[ADMIN] update Activity",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/home/roni/Downloads/Profile.pdf"
+								},
+								{
+									"key": "name",
+									"value": "Aktivitas 420",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/activities/:id",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"activities",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "f238a98a-b08a-4ae0-a682-4d3237d033d2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[ADMIN] Delete Activity",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/home/roni/Downloads/Profile.pdf"
+								},
+								{
+									"key": "name",
+									"value": "Aktivitas 420",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/activities/f238a98a-b08a-4ae0-a682-4d3237d033",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"activities",
+								"f238a98a-b08a-4ae0-a682-4d3237d033"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[Teacher]  review",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"comment\":\"mulyono asu\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/activities/review/178e9a03-42ad-4a76-88e1-1dd3ebf8e484",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"activities",
+								"review",
+								"178e9a03-42ad-4a76-88e1-1dd3ebf8e484"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "PkPLzb6QeFTOJKrmnb1AqxxRPtH2",
+									"disabled": true
+								},
+								{
+									"key": "activityId",
+									"value": "46cfdb5d-3e8b-4ada-8138-03756aa6a9f8",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[Teacher]  student activity by id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"comment\":\"memektembem\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/activities/students/:id",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"activities",
+								"students",
+								":id"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "PkPLzb6QeFTOJKrmnb1AqxxRPtH2",
+									"disabled": true
+								},
+								{
+									"key": "activityId",
+									"value": "46cfdb5d-3e8b-4ada-8138-03756aa6a9f8",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "JZdg2kXH9JZCQ3jTYTrGwqcgx6z1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[Teacher] find single activity by student id and activity id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"comment\":\"memektembem\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/activities/students/answered/1ed5f03a-cb0f-43b4-8128-0a9ab050c55a",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"activities",
+								"students",
+								"answered",
+								"1ed5f03a-cb0f-43b4-8128-0a9ab050c55a"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "PkPLzb6QeFTOJKrmnb1AqxxRPtH2",
+									"disabled": true
+								},
+								{
+									"key": "activityId",
+									"value": "46cfdb5d-3e8b-4ada-8138-03756aa6a9f8",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Submission",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/home/roni/Downloads/Roni Ragil Iman Khoirul_IJAIN.pdf"
+								},
+								{
+									"key": "name",
+									"value": "Activity",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/activities/submission/766ff64a-f709-412c-a9d1-8ff5f126c0ea",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"activities",
+								"submission",
+								"766ff64a-f709-412c-a9d1-8ff5f126c0ea"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "All Activities",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/home/roni/Downloads/Roni Ragil Iman Khoirul_PPT_Sidang Seminar.pdf"
+								},
+								{
+									"key": "name",
+									"value": "Activity",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/activities/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"activities",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Activity",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/home/roni/Downloads/Roni Ragil Iman Khoirul_PPT_Sidang Seminar.pdf"
+								},
+								{
+									"key": "name",
+									"value": "Activity",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/users/activities/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"activities",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Activity by Id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/home/roni/Downloads/Roni Ragil Iman Khoirul_PPT_Sidang Seminar.pdf"
+								},
+								{
+									"key": "name",
+									"value": "Activity",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/activities/:id",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"activities",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "46cfdb5d-3e8b-4ada-813803756aa6a9f8"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Learning Material",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/api/learning-materials",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"learning-materials"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Learning Material By Id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": [\n        {\n            \"category\": \"pre-test\",\n            \"id\": \"diagnostic-test\",\n            \"title\": \"Diagnostic Test\",\n            \"ic_url\": \"https://ik.imagekit.io/q1qexvvey/diagnostic_ic.png?updatedAt=1725337675997\",\n            \"desc\": \"Lorem ipsum dolor sit amet consectetur\",\n            \"finished_materials\": 8,\n            \"total_materials\": 10,\n            \"is_locked\": false\n        },\n        {\n            \"category\": \"material\",\n            \"endpoint\": \"diagnostic-test\",\n            \"title\": \"Introduction to proof\",\n            \"ic_url\": \"https://ik.imagekit.io/q1qexvvey/introduction_proof_ic.png?updatedAt=1725337679695\",\n            \"desc\": \"Lorem ipsum dolor sit amet consectetur\",\n            \"finished_materials\": 8,\n            \"total_materials\": 10,\n            \"is_locked\": false\n        },\n        {\n            \"category\": \"material\",\n            \"endpoint\": \"geometric-proof-format\",\n            \"title\": \"Geometric Proof Format\",\n            \"ic_url\": \"https://ik.imagekit.io/q1qexvvey/geometric_proof_ic.png?updatedAt=1725337679753\",\n            \"desc\": \"Lorem ipsum dolor sit amet consectetur\",\n            \"finished_materials\": 8,\n            \"total_materials\": 10,\n            \"is_locked\": false\n        },\n        {\n            \"category\": \"material\",\n            \"endpoint\": \"understanding-proof\",\n            \"title\": \"Understanding of Proof Structure\",\n            \"ic_url\": \"https://ik.imagekit.io/q1qexvvey/understanding_proof_ic.png?updatedAt=1725337683061\",\n            \"desc\": \"Lorem ipsum dolor sit amet consectetur\",\n            \"finished_materials\": 8,\n            \"total_materials\": 10,\n            \"is_locked\": false\n        },\n        {\n            \"category\": \"material\",\n            \"endpoint\": \"proof-competence-test\",\n            \"title\": \"Proof Competence Test\",\n            \"ic_url\": \"https://ik.imagekit.io/q1qexvvey/proof_competence_ic.png?updatedAt=1725337721837\",\n            \"desc\": \"Lorem ipsum dolor sit amet consectetur\",\n            \"finished_materials\": 8,\n            \"total_materials\": 10,\n            \"is_locked\": false\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/api/learning-materials/2e5d9efe-3f0f-4fef-aaf7-1823ceb5496c",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"learning-materials",
+						"2e5d9efe-3f0f-4fef-aaf7-1823ceb5496c"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Save progress",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": [\n        {\n            \"category\": \"pre-test\",\n            \"id\": \"diagnostic-test\",\n            \"title\": \"Diagnostic Test\",\n            \"ic_url\": \"https://ik.imagekit.io/q1qexvvey/diagnostic_ic.png?updatedAt=1725337675997\",\n            \"desc\": \"Lorem ipsum dolor sit amet consectetur\",\n            \"finished_materials\": 8,\n            \"total_materials\": 10,\n            \"is_locked\": false\n        },\n        {\n            \"category\": \"material\",\n            \"endpoint\": \"diagnostic-test\",\n            \"title\": \"Introduction to proof\",\n            \"ic_url\": \"https://ik.imagekit.io/q1qexvvey/introduction_proof_ic.png?updatedAt=1725337679695\",\n            \"desc\": \"Lorem ipsum dolor sit amet consectetur\",\n            \"finished_materials\": 8,\n            \"total_materials\": 10,\n            \"is_locked\": false\n        },\n        {\n            \"category\": \"material\",\n            \"endpoint\": \"geometric-proof-format\",\n            \"title\": \"Geometric Proof Format\",\n            \"ic_url\": \"https://ik.imagekit.io/q1qexvvey/geometric_proof_ic.png?updatedAt=1725337679753\",\n            \"desc\": \"Lorem ipsum dolor sit amet consectetur\",\n            \"finished_materials\": 8,\n            \"total_materials\": 10,\n            \"is_locked\": false\n        },\n        {\n            \"category\": \"material\",\n            \"endpoint\": \"understanding-proof\",\n            \"title\": \"Understanding of Proof Structure\",\n            \"ic_url\": \"https://ik.imagekit.io/q1qexvvey/understanding_proof_ic.png?updatedAt=1725337683061\",\n            \"desc\": \"Lorem ipsum dolor sit amet consectetur\",\n            \"finished_materials\": 8,\n            \"total_materials\": 10,\n            \"is_locked\": false\n        },\n        {\n            \"category\": \"material\",\n            \"endpoint\": \"proof-competence-test\",\n            \"title\": \"Proof Competence Test\",\n            \"ic_url\": \"https://ik.imagekit.io/q1qexvvey/proof_competence_ic.png?updatedAt=1725337721837\",\n            \"desc\": \"Lorem ipsum dolor sit amet consectetur\",\n            \"finished_materials\": 8,\n            \"total_materials\": 10,\n            \"is_locked\": false\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/api/learning-materials/users/progress/:id",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"learning-materials",
+						"users",
+						"progress",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "2e5d9efe-3f0f-4fef-aaf7-1823ceb5496"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upload Learing Material",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "title",
+							"value": "tes",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "lorem ipsum dolor mulyono",
+							"type": "text"
+						},
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/home/roni/Documents/dhss+ biodata.pdf"
+						},
+						{
+							"key": "icon",
+							"type": "file",
+							"src": "/home/roni/Pictures/axioma_ic.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/api/learning-materials/upload",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"learning-materials",
+						"upload"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upload Learing Material Copy",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "title",
+							"value": "tes",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "lorem ipsum dolor mulyono",
+							"type": "text"
+						},
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/home/roni/Documents/dhss+ biodata.pdf"
+						},
+						{
+							"key": "icon",
+							"type": "file",
+							"src": "/home/roni/Pictures/axioma_ic.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/api/learning-materials/1dc68f06-444e-4eb8-a1fc-3cb25fef4fa1",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"learning-materials",
+						"1dc68f06-444e-4eb8-a1fc-3cb25fef4fa1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Learing Material",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "title",
+							"value": "tes3",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "hahaha",
+							"type": "text"
+						},
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/home/roni/Pictures/Kartu Peserta Wisuda 200535626812.pdf"
+						},
+						{
+							"key": "icon",
+							"type": "file",
+							"src": "/home/roni/Pictures/proof_ic.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/api/learning-materials/:id",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"learning-materials",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "dedf2e14-48df-4199-9c12-6da49dab2f64"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Learing Material",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "title",
+							"value": "tes3",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "hahaha",
+							"type": "text"
+						},
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/home/roni/Pictures/Kartu Peserta Wisuda 200535626812.pdf"
+						},
+						{
+							"key": "icon",
+							"type": "file",
+							"src": "/home/roni/Pictures/proof_ic.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/api/learning-materials/:id",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"learning-materials",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "dedf2e14-48df-4199-9c12-6da49dab2f64"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Dashboard",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/api/dashboard",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"dashboard"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Progress",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/api/progress",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"progress"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[Teacher] User Progress By Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/api/progress/:userId",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"progress",
+						":userId"
+					],
+					"variable": [
+						{
+							"key": "userId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user learning material progress",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/api/users/learning-material/progress",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"learning-material",
+						"progress"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[Teacher] user learning material progress",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/api/learning-material/progress/:userId",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"learning-material",
+						"progress",
+						":userId"
+					],
+					"variable": [
+						{
+							"key": "userId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjhkNzU2OWQyODJkNWM1Mzk5MmNiYWZjZWI2NjBlYmQ0Y2E1OTMxM2EiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoidGVhY2hlcjEiLCJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vcHJvb2YtbWFzdGVyIiwiYXVkIjoicHJvb2YtbWFzdGVyIiwiYXV0aF90aW1lIjoxNzI4MzYxNDY4LCJ1c2VyX2lkIjoiSWR5Rjd1dUdkVWdadm5wYzhPWGtXSWI4UnI4MyIsInN1YiI6IklkeUY3dXVHZFVnWnZucGM4T1hrV0liOFJyODMiLCJpYXQiOjE3MjgzNjE0NjgsImV4cCI6MTcyODM2NTA2OCwiZW1haWwiOiJ0ZWFjaGVyMUBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsidGVhY2hlcjFAZ21haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.dTWBxQMJRvNXj5vmWc-tSWKyy1bMcYnMwp28NYjtW_CS-IMsYUcOr_dVhFJMxeeC3yMXAwrS7E0Iy-hP2vzRRH3ozd_imFcDduO5gVdSKHUe2M6lBIsgC2vmv_VyMN_zagPofHtiVxyn06tx3XVfsBs1EHyC2IBA-pyeFZuhjX8QgYB1YUjVr-U7FbttPuClnuP3s4qeGj-FLUnN4kd7E8TofADd9ZFY8RUGjhpM44E7nJln0RVmBuXkfjaCiVQaQ9zeittoo7POtBvIP0PstpQKGBTf-7MU8K9xNITOXKtIo6Ka0B2oPlUAwQAB8hsv-EybXZ1M73hbMowr-B8jHw",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE_URL",
+			"value": "localhost:3000",
+			"type": "string"
+		}
+	]
+}
