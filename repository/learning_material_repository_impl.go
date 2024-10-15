@@ -69,7 +69,7 @@ func (repository LearningMaterialRepositoryImpl) FindUserLearningMaterialProgres
 
 	// Perform the query
 	err := repository.DB.Model(&model.LearningMaterialProgress{}).
-		Select("COUNT(id) as finished_count").
+		Select("COUNT(DISTINCT learning_material_id) as finished_count").
 		Where("learning_material_id = ? AND user_id = ?", lmId, userId).
 		Take(&learningMaterialProgress).Error
 
