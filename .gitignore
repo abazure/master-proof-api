@@ -29,3 +29,5 @@ go.work.sum
 
 #Firebase
 proof-master-firebase-adminsdk-91rvv-9df75f40f1.json
+
+*.sql

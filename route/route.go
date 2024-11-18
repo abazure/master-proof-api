@@ -1,9 +1,10 @@
 package route
 
 import (
-	"github.com/gofiber/fiber/v2"
 	"master-proof-api/controller"
 	"master-proof-api/middleware"
+
+	"github.com/gofiber/fiber/v2"
 )
 
 func SetupRoute(app *fiber.App, userController controller.UserController, learningMaterialController controller.LearningMaterialController, quizController controller.QuizController, activityController controller.ActivityController, progressController controller.ProgressController) {
@@ -24,8 +25,8 @@ func SetupRoute(app *fiber.App, userController controller.UserController, learni
 	api.Post("/learning-materials/upload", middleware.FirebaseAuthMiddleware(), learningMaterialController.Create)
 	api.Get("/learning-materials/:id", middleware.FirebaseAuthMiddleware(), learningMaterialController.FindByID)
 	api.Post("/learning-materials/users/progress/:id", middleware.FirebaseAuthMiddleware(), learningMaterialController.SaveProgress)
-	api.Put("/learning-materials/:id", middleware.FirebaseAuthMiddleware(), learningMaterialController.Update)
-	api.Delete("/learning-materials/:id", middleware.FirebaseAuthMiddleware(), learningMaterialController.Delete)
+	api.Put("/learning-materials/:subCategory", middleware.FirebaseAuthMiddleware(), learningMaterialController.Update)
+	api.Delete("/learning-materials/:subCategory", middleware.FirebaseAuthMiddleware(), learningMaterialController.Delete)
 
 	//Quiz
 	api.Get("/quizzes/competences/:name", middleware.FirebaseAuthMiddleware(), quizController.FindQuizWithCorrectAnswer)
@@ -36,6 +37,11 @@ func SetupRoute(app *fiber.App, userController controller.UserController, learni
 	api.Get("/reports/competences/:name", middleware.FirebaseAuthMiddleware(), quizController.FindUserCompetenceReport)
 	api.Get("/reports/diagnostics/:name/:userId", middleware.FirebaseAuthMiddleware(), quizController.FindUserDiagnosticReportForTeacher)
 	api.Get("/reports/competences/:name/:userId", middleware.FirebaseAuthMiddleware(), quizController.FindUserCompetenceReportForTeacher)
+	//Quiz v2
+	api.Get("/quizzes/diagnostics", middleware.FirebaseAuthMiddleware(), quizController.AvailableDiagnosticQuizCategories)
+	api.Get("/quizzes/competences", middleware.FirebaseAuthMiddleware(), quizController.AvailableCompetenceQuizCategories)
+	api.Post("/quizzes/diagnostics/calculate/:id", middleware.FirebaseAuthMiddleware(), quizController.CalculateDiagnosticQuizResult)
+	api.Post("/quizzes/competences/calculate/:id", middleware.FirebaseAuthMiddleware(), quizController.CalculateCompetenceQuizResult)
 
 	//ACTIVITY
 	api.Post("/activities/upload/", middleware.FirebaseAuthMiddleware(), activityController.CreateActivity)

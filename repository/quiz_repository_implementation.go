@@ -1,8 +1,9 @@
 package repository
 
 import (
-	"gorm.io/gorm"
 	"master-proof-api/model"
+
+	"gorm.io/gorm"
 )
 
 type QuizRepositoryImpl struct {
@@ -73,4 +74,36 @@ func (repository *QuizRepositoryImpl) FindUserCompetenceReport(userId string, qu
 		return nil, err
 	}
 	return &result, nil
+}
+
+func (repository *QuizRepositoryImpl) GetDiagonosticAllQuizzes() ([]*model.Quiz, error) {
+
+	var quizzes []*model.Quiz
+	err := repository.DB.
+		Joins("LEFT JOIN quiz_categories ON quizzes.quiz_category_id = quiz_categories.id").
+		Where("quiz_categories.name = ?", "diagnostic").
+		Find(&quizzes).
+		Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return quizzes, nil
+}
+
+func (repository *QuizRepositoryImpl) GetCompetenceAllQuizzes() ([]*model.Quiz, error) {
+
+	var quizzes []*model.Quiz
+	err := repository.DB.
+		Joins("LEFT JOIN quiz_categories ON quizzes.quiz_category_id = quiz_categories.id").
+		Where("quiz_categories.name = ?", "competence").
+		Find(&quizzes).
+		Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return quizzes, nil
 }
