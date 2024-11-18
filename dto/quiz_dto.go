@@ -63,3 +63,27 @@ type ResponseCompetenceReport struct {
 	Score     int       `json:"score"`
 	CreatedAt time.Time `json:"created_at"`
 }
+
+type Quizzes struct {
+	Id          string `json:"id"`
+	CategoryId  string `json:"quiz_category_id"`
+	EndName     string `json:"name"`
+	Description string `json:"description"`
+	Created     string `json:"created_at"`
+	Updated     string `json:"updated_at"`
+}
+
+type ResponseQuizzes struct {
+	Items []Quizzes `json:"quizzes"`
+}
+
+type RequestCalculateQuizResult struct {
+	QuizSubCategory string `json:"sub_category"`
+	Answers         []int  `json:"answers"`
+}
+
+type ResponseQuizResult struct {
+	Title    string `json:"title"`
+	ImageUrl string `json:"img_url"`
+	Desc     string `json:"desc"`
+}
