@@ -32,12 +32,17 @@ func (controller *QuizControllerImpl) FindQuizWithCorrectAnswer(ctx *fiber.Ctx) 
 
 func (controller *QuizControllerImpl) FindQuizWithoutCorrectAnswer(ctx *fiber.Ctx) error {
 	name := ctx.Params("name")
-	result, err := controller.QuizService.FindQuizWithoutCorrectAnswer(name)
+	response, err := controller.QuizService.FindQuizWithoutCorrectAnswer(name)
 	if err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, err.Error())
 	}
 	return ctx.Status(200).JSON(fiber.Map{
-		"data": result,
+
+		"data": response,
+		"prerequisite": map[string]string{
+			"image":       "https://ik.imagekit.io/abazure/QuestImage.png?updatedAt=1733197266805",
+			"description": "Perhatikan gambar berikut untuk mengerjakan soal selanjutnya",
+		},
 	})
 }
 func (controller *QuizControllerImpl) CreateUserDiagnosticReport(ctx *fiber.Ctx) error {
