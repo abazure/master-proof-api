@@ -2,11 +2,12 @@ package controller
 
 import (
 	"errors"
-	"firebase.google.com/go/v4/auth"
 	"fmt"
-	"github.com/gofiber/fiber/v2"
 	"master-proof-api/dto"
 	"master-proof-api/service"
+
+	"firebase.google.com/go/v4/auth"
+	"github.com/gofiber/fiber/v2"
 )
 
 type QuizControllerImpl struct {
@@ -172,6 +173,85 @@ func (controller *QuizControllerImpl) FindUserCompetenceReportForTeacher(ctx *fi
 		if errors.As(err, &fiberErr) {
 			return ctx.Status(fiberErr.Code).JSON(fiber.Map{
 				"errors": err.Error(),
+			})
+		}
+	}
+	return ctx.Status(200).JSON(fiber.Map{
+		"data": result,
+	})
+}
+
+// AvailableQuizCategories implements QuizController.
+func (controller *QuizControllerImpl) AvailableDiagnosticQuizCategories(ctx *fiber.Ctx) error {
+	result, err := controller.QuizService.GetAllDiagnosticQuizzesCategories()
+	if err != nil {
+		var fiberErr *fiber.Error
+		if errors.As(err, &fiberErr) {
+			return ctx.Status(fiberErr.Code).JSON(fiber.Map{
+				"errors": err.Error(),
+			})
+		}
+	}
+	return ctx.Status(200).JSON(fiber.Map{
+		"data": result,
+	})
+}
+
+func (controller *QuizControllerImpl) AvailableCompetenceQuizCategories(ctx *fiber.Ctx) error {
+	result, err := controller.QuizService.GetAllCompetenceQuizzesCategories()
+	if err != nil {
+		var fiberErr *fiber.Error
+		if errors.As(err, &fiberErr) {
+			return ctx.Status(fiberErr.Code).JSON(fiber.Map{
+				"errors": err.Error(),
+			})
+		}
+	}
+	return ctx.Status(200).JSON(fiber.Map{
+		"data": result,
+	})
+}
+
+// CalculateCompetenceQuizResult implements QuizController.
+func (controller *QuizControllerImpl) CalculateCompetenceQuizResult(ctx *fiber.Ctx) error {
+	subCategory := ctx.Params("id")
+	var request dto.RequestCalculateQuizResult
+	errRequest := ctx.BodyParser(&request)
+	request.QuizSubCategory = subCategory
+	if errRequest != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, errRequest.Error())
+	}
+
+	result, errService := controller.QuizService.CalculateCompentenceQuizResult(request)
+	if errService != nil {
+		var fiberErr *fiber.Error
+		if errors.As(errService, &fiberErr) {
+			return ctx.Status(fiberErr.Code).JSON(fiber.Map{
+				"errors": errService.Error(),
+			})
+		}
+	}
+
+	return ctx.Status(200).JSON(fiber.Map{
+		"data": result,
+	})
+}
+
+// CalculateDiagnosticQuizResult implements QuizController.
+func (controller *QuizControllerImpl) CalculateDiagnosticQuizResult(ctx *fiber.Ctx) error {
+	subCategory := ctx.Params("id")
+	var request dto.RequestCalculateQuizResult
+	errRequest := ctx.BodyParser(&request)
+	request.QuizSubCategory = subCategory
+	if errRequest != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, errRequest.Error())
+	}
+	result, errService := controller.QuizService.CalculateDiagnosticQuizResult(request)
+	if errService != nil {
+		var fiberErr *fiber.Error
+		if errors.As(errService, &fiberErr) {
+			return ctx.Status(fiberErr.Code).JSON(fiber.Map{
+				"errors": errService.Error(),
 			})
 		}
 	}

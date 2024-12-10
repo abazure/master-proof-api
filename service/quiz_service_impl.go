@@ -2,11 +2,13 @@ package service
 
 import (
 	"fmt"
-	"github.com/gofiber/fiber/v2"
-	"github.com/google/uuid"
 	"master-proof-api/dto"
 	"master-proof-api/model"
 	"master-proof-api/repository"
+	"strconv"
+
+	"github.com/gofiber/fiber/v2"
+	"github.com/google/uuid"
 )
 
 type QuizServiceImpl struct {
@@ -154,4 +156,88 @@ func (service *QuizServiceImpl) FindUserCompetenceReport(request dto.RequestGetC
 		CreatedAt: report.CreatedAt,
 	}
 	return result, nil
+}
+
+func (service *QuizServiceImpl) GetAllDiagnosticQuizzesCategories() (*dto.ResponseQuizzes, error) {
+	quizzes, _ := service.QuizRepository.GetDiagonosticAllQuizzes()
+	if quizzes == nil {
+		return &dto.ResponseQuizzes{}, nil
+	}
+	result := &dto.ResponseQuizzes{}
+	for _, quiz := range quizzes {
+		result.Items = append(result.Items, dto.Quizzes{
+			Id:          quiz.ID,
+			CategoryId:  quiz.QuizCategoryId,
+			EndName:     quiz.Name,
+			Description: quiz.Name,
+			Created:     quiz.CreatedAt.String(),
+			Updated:     quiz.UpdatedAt.String(),
+		})
+	}
+
+	return result, nil
+}
+
+func (service *QuizServiceImpl) GetAllCompetenceQuizzesCategories() (*dto.ResponseQuizzes, error) {
+	quizzes, _ := service.QuizRepository.GetCompetenceAllQuizzes()
+	if quizzes == nil {
+		return &dto.ResponseQuizzes{}, nil
+	}
+	result := &dto.ResponseQuizzes{}
+	for _, quiz := range quizzes {
+		result.Items = append(result.Items, dto.Quizzes{
+			Id:          quiz.ID,
+			CategoryId:  quiz.QuizCategoryId,
+			EndName:     quiz.Name,
+			Description: quiz.Name,
+			Created:     quiz.CreatedAt.String(),
+			Updated:     quiz.UpdatedAt.String(),
+		})
+	}
+
+	return result, nil
+}
+
+// CalculateCompentenceQuizResult implements QuizService.
+func (service *QuizServiceImpl) CalculateCompentenceQuizResult(request dto.RequestCalculateQuizResult) (*dto.ResponseQuizResult, error) {
+	quizzes, err := service.QuizRepository.FindQuizWithCorrectAnswer(request.QuizSubCategory)
+	if err != nil {
+		return nil, err
+	}
+
+	var correctAnswers []*int
+	for _, quiz := range quizzes {
+		for _, question := range quiz.Questions {
+			correctAnswers = append(correctAnswers, question.CorrectAnswer)
+		}
+	}
+	var score int
+	for index, answer := range correctAnswers {
+		if request.Answers[index] == *answer {
+			score += 1
+		}
+	}
+	var totalAnswers int = len(correctAnswers)
+	var finalScore = float64(score) / float64(totalAnswers) * 100
+	var imageUrl string
+	var title string
+
+	if finalScore > 75 {
+		imageUrl = "https://ik.imagekit.io/q1qexvvey/dump/competence_score_more_75.png?updatedAt=1731944323604"
+		title = "Tetap pertahankan!"
+	} else {
+		imageUrl = "https://ik.imagekit.io/q1qexvvey/dump/competence_score_75.png?updatedAt=1731944328334"
+		title = "Lebih giat belajar lagi ya"
+	}
+	result := &dto.ResponseQuizResult{
+		Title:    title,
+		ImageUrl: imageUrl,
+		Desc:     strconv.FormatFloat(finalScore, 'f', -1, 64),
+	}
+	return result, nil
+}
+
+// CalculateDiagnosticQuizResult implements QuizService.
+func (service *QuizServiceImpl) CalculateDiagnosticQuizResult(request dto.RequestCalculateQuizResult) (*dto.ResponseQuizResult, error) {
+	panic("unimplemented")
 }

@@ -1,9 +1,6 @@
 package main
 
 import (
-	"github.com/go-playground/validator/v10"
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cors"
 	"log"
 	"master-proof-api/config"
 	"master-proof-api/controller"
@@ -11,6 +8,10 @@ import (
 	"master-proof-api/repository"
 	"master-proof-api/route"
 	"master-proof-api/service"
+
+	"github.com/go-playground/validator/v10"
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 )
 
 func main() {
@@ -56,5 +57,5 @@ func main() {
 		return c.SendStatus(404) // => 404 "Not Found"
 	})
 
-	log.Fatal(app.Listen(":3000"))
+	log.Fatal(app.Listen("127.0.0.1:3000"))
 }

@@ -11,4 +11,8 @@ type QuizController interface {
 	FindUserCompetenceReport(ctx *fiber.Ctx) error
 	FindUserDiagnosticReportForTeacher(ctx *fiber.Ctx) error
 	FindUserCompetenceReportForTeacher(ctx *fiber.Ctx) error
+	AvailableDiagnosticQuizCategories(ctx *fiber.Ctx) error
+	AvailableCompetenceQuizCategories(ctx *fiber.Ctx) error
+	CalculateDiagnosticQuizResult(ctx *fiber.Ctx) error
+	CalculateCompetenceQuizResult(ctx *fiber.Ctx) error
 }

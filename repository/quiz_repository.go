@@ -12,4 +12,6 @@ type QuizRepository interface {
 	FindUserDiagnosticReport(userId string, quizId string) (*model.UserDiagnosticReport, error)
 	SaveCompetenceReport(request *model.UserCompetenceReports) error
 	FindUserCompetenceReport(userId string, quizId string) (*model.UserCompetenceReports, error)
+	GetDiagonosticAllQuizzes() ([]*model.Quiz, error)
+	GetCompetenceAllQuizzes() ([]*model.Quiz, error)
 }

@@ -9,4 +9,8 @@ type QuizService interface {
 	FindUserDiagnosticReport(request dto.RequestGetDiagnosticResult) (*dto.ResponseDiagnosticReport, error)
 	CreateUserCompetenceReport(request dto.CompetenceReportRequest) error
 	FindUserCompetenceReport(request dto.RequestGetCompetenceResult) (*dto.ResponseCompetenceReport, error)
+	GetAllDiagnosticQuizzesCategories() (*dto.ResponseQuizzes, error)
+	GetAllCompetenceQuizzesCategories() (*dto.ResponseQuizzes, error)
+	CalculateDiagnosticQuizResult(request dto.RequestCalculateQuizResult) (*dto.ResponseQuizResult, error)
+	CalculateCompentenceQuizResult(request dto.RequestCalculateQuizResult) (*dto.ResponseQuizResult, error)
 }
